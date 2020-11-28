@@ -24,6 +24,10 @@ public interface OrigDLService extends IService<OrigDL> {
 
     Map getPowerAnalyze(Params params);
 
+    List<List<Object>> getData();
 
+    List<Double> getCenterData();
+
+    Map getPeakData();
 
 }

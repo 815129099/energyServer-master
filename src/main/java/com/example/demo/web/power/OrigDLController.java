@@ -81,6 +81,27 @@ public class OrigDLController {
         ExcelKit.$Export(ExportPower.class, response).downXlsx(list, false);
     }
 
+    @RequestMapping(value = "/getYesData.do",produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getData() {
+        Result result = ResultUtil.success();
+        result.setData(this.origDLService.getData());
+        return result;
+    }
 
+    @RequestMapping(value = "/getCenterData.do",produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getCenterData() {
+        Result result = ResultUtil.success();
+        result.setData(this.origDLService.getCenterData());
+        return result;
+    }
 
+    @RequestMapping(value = "/getPeakData.do",produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getPeakData() {
+        Result result = ResultUtil.success();
+        result.setData(this.origDLService.getPeakData());
+        return result;
+    }
 }

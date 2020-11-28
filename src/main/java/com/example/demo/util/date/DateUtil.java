@@ -1,10 +1,28 @@
 package com.example.demo.util.date;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DateUtil {
+
+    //获取昨天和前天的日期
+    public static List<String> getYesDay(){
+        List<String> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, - 1);
+        Date d = c.getTime();
+        String day = format.format(d);
+        list.add(day);
+        c.add(Calendar.DATE, - 1);
+        d = c.getTime();
+        day = format.format(d);
+        list.add(day);
+        return list;
+    }
 
     public static List<String> getWeekDay(){
         List<String> list = new ArrayList<>();
@@ -289,6 +307,12 @@ public class DateUtil {
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
         return ft.format(new Date());
     }
+
+    public static String getNowByDay(){
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        return ft.format(new Date());
+    }
+
     public static void main(String[] args) throws ParseException {
         /*
         List<String> list= getWeekDay();
@@ -301,6 +325,13 @@ public class DateUtil {
        // System.out.println(DateUtil.StringToDate("2019-07-" + 9 + " 00:00:00"));
        // System.out.println(getBeforeDay());
        // System.out.println(getBeforeDay1());
-        System.out.println(getWeekDay());
+        //System.out.println(getWeekDay());
+        System.out.println(getYesDay());
+        NumberFormat num = NumberFormat.getPercentInstance();
+        num.setMaximumIntegerDigits(3);
+        num.setMaximumFractionDigits(4);
+        System.out.println(num.format(0.12));
+        System.out.println(num.format(43.12));
+        System.out.println(num.format(43.1245632));
     }
 }

@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -287,4 +289,100 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
         return map;
     }
 
+    @Override
+    public List<List<Object>> getData() {
+        List<String> days = DateUtil.getYesDay();
+        List<Map> list = this.origDLDao.getYesData(days.get(1),days.get(0));
+        List<String> strings = new ArrayList<>();
+        if(list==null || list.size()<=0){
+            return null;
+        }
+        List<List<Object>> dataList = new ArrayList<>();
+        for(Map s:list){
+            String name = s.get("EMeterName").toString();
+            if(strings.contains(name)){
+                List<Object> objects = dataList.get(dataList.size()-1);
+                dataList.remove(objects);
+                Double beforeData = (Double) objects.get(1);
+                Double yesData = (Double) s.get("PowerTotal");
+                objects.add(s.get("PowerTotal"));
+                if(beforeData==0 || yesData==0){
+                    //objects.add("<span  class='colorGrass'>↑100%</span>");
+                    continue;
+                }else{
+                    Double rate = yesData/beforeData-1;
+                    NumberFormat num = NumberFormat.getPercentInstance();
+                    num.setMaximumIntegerDigits(3);
+                    num.setMaximumFractionDigits(4);
+                    if(rate>0){
+                        objects.add("<span  class='colorGrass'>↑"+ num.format(rate)+"</span>");
+                    }else if(rate<0){
+                        objects.add("<span  class='colorRed'>↓"+ num.format(rate)+"</span>");
+                    }
+                }
+                dataList.add(objects);
+            }else{
+                strings.add(name);
+                List<Object> l = new ArrayList<>();
+                l.add(name);
+                l.add(s.get("PowerTotal"));
+                dataList.add(l);
+            }
+        }
+        Collections.sort(dataList, new Comparator<List<Object>>() {
+            @Override
+            public int compare(List<Object> o1, List<Object> o2) {
+                double yesNum = (double)o2.get(2);
+                double num = (double)o1.get(2);
+                return new Double(yesNum-num).intValue();
+            }
+        });
+        return dataList;
+    }
+
+    @Override
+    public List<Double> getCenterData() {
+        List<Double> list = new ArrayList<>();
+        int normalNum = this.origDLDao.getNormalNum(DateUtil.getNowByDay());
+        list.add(Double.valueOf(normalNum));
+        int badNum = this.origDLDao.getBadNum(DateUtil.getNowByDay());
+        list.add(Double.valueOf(badNum));
+        double rate = Double.valueOf(normalNum)/Double.valueOf(normalNum+badNum);
+        list.add(rate);
+        //获取昨天总电量
+        double yesTotalPower = this.origDLDao.getYesTotalPower(DateUtil.getYesDay().get(0));
+        list.add(yesTotalPower);
+        //获取今天总电量
+        double totalPower = this.origDLDao.getTotalPower(DateUtil.getNowByDay());
+        list.add(totalPower);
+        list.add(totalPower/yesTotalPower);
+        return list;
+    }
+
+    @Override
+    public Map getPeakData() {
+        List<Map> list = this.origDLDao.getPeakData(DateUtil.getYesDay().get(0));
+        if(list.size()>0){
+            List<String> names = new ArrayList<>();
+            List<Double> peakList = new ArrayList<>();
+            List<Double> flatList = new ArrayList<>();
+            List<Double> ravineList = new ArrayList<>();
+            List<Double> peakPercentList = new ArrayList<>();
+            for(Map map:list){
+                names.add(map.get("EMeterName").toString());
+                peakList.add(Double.valueOf(map.get("peak").toString()));
+                flatList.add(Double.valueOf(map.get("flat").toString()));
+                ravineList.add(Double.valueOf(map.get("ravine").toString()));
+                peakPercentList.add(Double.valueOf(map.get("peakPercent").toString()));
+            }
+            Map map = new HashMap();
+            map.put("peak",peakList);
+            map.put("name",names);
+            map.put("flat",flatList);
+            map.put("ravine",ravineList);
+            map.put("peakPercent",peakPercentList);
+            return map;
+        }
+        return null;
+    }
 }

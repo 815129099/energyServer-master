@@ -46,4 +46,16 @@ public interface OrigDLDao extends BaseMapper<OrigDL> {
     List<Map> getAllData(Params params);
     List<Map> getAllData1(Params params);
 
+    List<Map> getYesData(@Param("yesterday") String yesterday,@Param("beforeDay") String beforeDay);
+    //获取正常的电表数
+    int getNormalNum(@Param("day") String day);
+    //获取故障的电表数
+    int getBadNum(@Param("day") String day);
+    //获取昨天总电量
+    double getYesTotalPower(@Param("day") String day);
+
+    double getTotalPower(@Param("day") String day);
+
+    List<Map> getPeakData(@Param("day") String day);
+
 }

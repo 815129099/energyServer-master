@@ -32,7 +32,7 @@ public class ScheduledTask {
     /*自动采集数据
     * 每点的30分，采集上一个小时的数据
     * */
-    @Scheduled(cron = "0 30 * * * ?")
+    //@Scheduled(cron = "0 30 * * * ?")
     @Async("asyncServiceExecutor")
     public void AutoGetAllData(){
         System.out.println("触发定时任务");
@@ -60,7 +60,7 @@ public class ScheduledTask {
     /*自动计算峰平谷数据
     * 每天凌晨4点，自动计算前一天的峰平谷数据
     * */
-    @Scheduled(cron = "0 0 4 1/1 * ? ")
+    //@Scheduled(cron = "0 0 4 1/1 * ? ")
     public void AutoGetPeak(){
         List<Map> maps = this.origDLDao.getEMeterNum();
             for (Map<String,Object> m:maps) {

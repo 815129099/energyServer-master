@@ -116,4 +116,43 @@
 
     </select>
 
+    <select id="getYesData" resultType="java.util.Map">
+        select e.EMeterName,p.TimeTag,p.PowerTotal
+        from poweranalyze p,emeters e
+        where p.EMeterID = e.EMeterID and p.TimeTag BETWEEN #{yesterday} and #{beforeDay} and p.EMeterID NOT IN (1,2)
+        ORDER BY e.EMeterName,p.TimeTag
+    </select>
+
+    <select id="getNormalNum" resultType="java.lang.Integer">
+        select count(*)
+        from poweranalyze
+        where TimeTag= #{day} and PowerTotal>0
+    </select>
+
+    <select id="getBadNum" resultType="java.lang.Integer">
+        select count(*)
+        from poweranalyze
+        where TimeTag= #{day} and PowerTotal <![CDATA[ <= ]]> 0
+    </select>
+
+    <select id="getYesTotalPower" resultType="java.lang.Double">
+        select sum(PowerTotal)
+        from poweranalyze
+        where TimeTag= #{day} and EMeterID in (1,2);
+    </select>
+
+    <select id="getTotalPower" resultType="java.lang.Double">
+        select sum(f.power)
+        from (SELECT ((MAX(o.ZxygZ)-MIN(o.ZxygZ))*(select (e.PT1*e.CT1)/(e.CT2*e.PT2) num from EMeters e where o.EMeterID=e.EMeterID)) power
+        FROM OrigDL o
+        where  o.EMeterID in (1,2) and DATE_FORMAT(o.TimeTag,"%Y-%c-%d") = #{day} and o.TimeTag <![CDATA[ <= ]]> NOW()
+        GROUP BY o.EMeterID) f
+    </select>
+
+    <select id="getPeakData" resultType="java.util.Map">
+        select e.EMeterName,p.flat,p.peak,p.ravine,p.peakPercent
+        from poweranalyze p,emeters e
+        where p.EMeterID = e.EMeterID and p.TimeTag = #{day}
+    </select>
+
 </mapper>
