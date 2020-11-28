@@ -150,9 +150,15 @@
     </select>
 
     <select id="getPeakData" resultType="java.util.Map">
-        select e.EMeterName,p.flat,p.peak,p.ravine,p.peakPercent
+        select e.EMeterName,p.flat,p.peak,p.ravine,p.peakPercent,p.PowerTotal
         from poweranalyze p,emeters e
         where p.EMeterID = e.EMeterID and p.TimeTag = #{day}
+    </select>
+
+    <select id="getPowerTotal" resultType="java.util.Map">
+        select e.EMeterName as name,p.PowerTotal as value
+        from poweranalyze p,emeters e
+        where p.EMeterID = e.EMeterID and p.TimeTag = #{day} and e.EMeterID not in (1,2)
     </select>
 
 </mapper>

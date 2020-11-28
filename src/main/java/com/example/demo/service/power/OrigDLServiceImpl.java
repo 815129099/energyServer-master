@@ -385,4 +385,9 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
         }
         return null;
     }
+
+    @Override
+    public List<Map> getPowerTotal() {
+        return this.origDLDao.getPowerTotal(DateUtil.getYesDay().get(0));
+    }
 }

@@ -50,6 +50,7 @@ com\example\demo\util\Excel\ExcelParam.class
 com\example\demo\util\jna\test\testJNA.class
 com\example\demo\web\util\TestController.class
 com\example\demo\util\jna\po\TIME_FRAME$ByValue.class
+com\example\demo\service\power\OrigDLServiceImpl$1.class
 com\example\demo\util\netty\insertDao.class
 com\example\demo\web\user\LoginController.class
 com\example\demo\web\power\OrigDLTotalController.class

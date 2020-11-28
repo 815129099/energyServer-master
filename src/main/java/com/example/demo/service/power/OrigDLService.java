@@ -30,4 +30,6 @@ public interface OrigDLService extends IService<OrigDL> {
 
     Map getPeakData();
 
+    List<Map> getPowerTotal();
+
 }

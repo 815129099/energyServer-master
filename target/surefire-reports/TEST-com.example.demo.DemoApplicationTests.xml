@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.demo.DemoApplicationTests" time="0.03" tests="1" errors="0" skipped="0" failures="0">
+<testsuite name="com.example.demo.DemoApplicationTests" time="0.033" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="D:\java\jdk\jre\bin"/>
@@ -29,7 +29,7 @@
     <property name="maven.ext.class.path" value="D:\ideaIU2019.3.2.win\plugins\maven\lib\maven-event-listener.jar"/>
     <property name="classworlds.conf" value="D:\maven\apache-maven-3.6.0\bin\m2.conf"/>
     <property name="sun.jnu.encoding" value="GBK"/>
-    <property name="java.library.path" value="D:\java\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\xshell6\;D:\Python3.7\Scripts\;D:\Python3.7\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;D:\java\jdk\bin;D:\java\jdk\jre\bin;D:\maven\apache-maven-3.6.0\bin;D:\mysql-8.0.13\bin;D:\Git\cmd;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\node\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;D:\gradle-6.4.1-all\gradle-6.4.1\bin;C:\Users\lwx\AppData\Local\Android\Sdk\platform-tools;C:\Users\lwx\AppData\Local\Android\Sdk\tools\bin;C:\Users\lwx\AppData\Local\Android\Sdk\emulator;C:\Users\lwx\AppData\Local\Android\Sdk\platform-tools;D:\Program Files\Nox\bin;C:\Users\lwx\AppData\Local\Microsoft\WindowsApps;;D:\Microsoft VS Code\bin;C:\Users\lwx\AppData\Roaming\npm;."/>
+    <property name="java.library.path" value="D:\java\jdk\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;D:\java\jdk\bin;D:\java\jdk\jre\bin;D:\xshell6\;D:\Python3.7\Scripts\;D:\Python3.7\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;D:\maven\apache-maven-3.6.0\bin;D:\mysql-8.0.13\bin;D:\Git\cmd;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\node\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;D:\gradle-6.4.1-all\gradle-6.4.1\bin;C:\Users\lwx\AppData\Local\Android\Sdk\platform-tools;C:\Users\lwx\AppData\Local\Android\Sdk\tools\bin;C:\Users\lwx\AppData\Local\Android\Sdk\emulator;C:\Users\lwx\AppData\Local\Android\Sdk\platform-tools;D:\Program Files\Nox\bin;C:\Users\lwx\AppData\Local\Microsoft\WindowsApps;;D:\Microsoft VS Code\bin;C:\Users\lwx\AppData\Roaming\npm;."/>
     <property name="maven.conf" value="D:\maven\apache-maven-3.6.0/conf"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
@@ -64,5 +64,5 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="contextLoads" classname="com.example.demo.DemoApplicationTests" time="0.03"/>
+  <testcase name="contextLoads" classname="com.example.demo.DemoApplicationTests" time="0.033"/>
 </testsuite>

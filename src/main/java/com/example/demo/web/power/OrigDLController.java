@@ -104,4 +104,12 @@ public class OrigDLController {
         result.setData(this.origDLService.getPeakData());
         return result;
     }
+
+    @RequestMapping(value = "/getPowerTotal.do",produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getPowerTotal() {
+        Result result = ResultUtil.success();
+        result.setData(this.origDLService.getPowerTotal());
+        return result;
+    }
 }
