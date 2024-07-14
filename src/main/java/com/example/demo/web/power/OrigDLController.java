@@ -112,4 +112,12 @@ public class OrigDLController {
         result.setData(this.origDLService.getPowerTotal());
         return result;
     }
+
+    @RequestMapping(value = "/getExceptionData.do",produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @ResponseBody
+    public Result getExceptionData() {
+        Result result = ResultUtil.success();
+        result.setData(this.origDLService.getExceptionData());
+        return result;
+    }
 }

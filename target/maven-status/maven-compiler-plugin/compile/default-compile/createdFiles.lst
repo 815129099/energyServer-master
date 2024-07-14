@@ -11,6 +11,7 @@ com\example\demo\util\jna\util\InsertUtil.class
 com\example\demo\mapper\power\OrigDLDao.class
 com\example\demo\web\power\OrigDLController.class
 com\example\demo\util\jna\po\INSTANTANEOUS_VALUE$ByValue.class
+com\example\demo\service\demo\ConfigurerSchedulingDemo.class
 com\example\demo\util\jna\po\POWER$ByReference.class
 com\example\demo\entity\OrigDL.class
 com\example\demo\util\jna\util\SqlServerUtil.class
@@ -28,8 +29,10 @@ com\example\demo\util\jna\po\TIME_FRAME.class
 com\example\demo\util\shiro\SpringBeanFactoryUtils.class
 com\example\demo\service\util\UtilService.class
 com\example\demo\util\JSON\JsonUtil.class
+com\example\demo\service\demo\JedisLock.class
 com\example\demo\util\netty\server\ChildChannelHandler.class
 com\example\demo\service\util\UtilServiceImpl$2.class
+com\example\demo\util\webSocket\WebSocketConfig.class
 com\example\demo\mapper\power\OrigRtvDao.class
 com\example\demo\util\jna\test\testJNA$1.class
 com\example\demo\service\power\OrigDLTotalServiceImpl.class
@@ -123,9 +126,11 @@ com\example\demo\util\shiro\UserRealm.class
 com\example\demo\util\date\DateUtil.class
 com\example\demo\service\power\OrigDLServiceImpl.class
 com\example\demo\util\jna\tcp\testPck.class
+com\example\demo\service\demo\RedissonLock.class
 com\example\demo\util\netty\server\DiscardServer.class
 com\example\demo\mapper\user\PermissionDao.class
 com\example\demo\util\MyWebMvcConfigurerAdapter.class
 com\example\demo\service\power\PowerAnalyzeServiceImpl.class
 com\example\demo\util\MyException\CommonJsonException.class
 com\example\demo\util\jna\po\TIME_FRAME$ByReference.class
+com\example\demo\util\webSocket\WebSocket.class

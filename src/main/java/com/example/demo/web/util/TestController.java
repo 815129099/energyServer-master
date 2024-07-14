@@ -1,5 +1,6 @@
 package com.example.demo.web.util;
 import com.example.demo.service.user.UserService;
+import com.example.demo.util.webSocket.WebSocket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -8,11 +9,21 @@ import javax.servlet.http.HttpServletResponse;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/util")
+@RequestMapping("/util")
 public class TestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private WebSocket webSocket;
+
+    @RequestMapping("/sendOneMessage")
+    public String testSocket(){
+        webSocket.sendOneMessage("111","2222");
+        return "test";
+
+    }
 
     @RequestMapping("/index")
     public ModelAndView index(){

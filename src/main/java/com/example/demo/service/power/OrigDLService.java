@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.service.IService;
 import com.example.demo.entity.Params;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -31,5 +32,7 @@ public interface OrigDLService extends IService<OrigDL> {
     Map getPeakData();
 
     List<Map> getPowerTotal();
+
+    List<List<Object>> getExceptionData();
 
 }

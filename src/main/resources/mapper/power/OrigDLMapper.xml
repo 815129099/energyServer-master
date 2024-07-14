@@ -145,7 +145,7 @@
         select sum(f.power)
         from (SELECT ((MAX(o.ZxygZ)-MIN(o.ZxygZ))*(select (e.PT1*e.CT1)/(e.CT2*e.PT2) num from EMeters e where o.EMeterID=e.EMeterID)) power
         FROM OrigDL o
-        where  o.EMeterID in (1,2) and DATE_FORMAT(o.TimeTag,"%Y-%c-%d") = #{day} and o.TimeTag <![CDATA[ <= ]]> NOW()
+        where  o.EMeterID in (1,2) and DATE_FORMAT(o.TimeTag,"%Y-%m-%d") = #{day} and o.TimeTag <![CDATA[ <= ]]> NOW()
         GROUP BY o.EMeterID) f
     </select>
 
@@ -161,4 +161,9 @@
         where p.EMeterID = e.EMeterID and p.TimeTag = #{day} and e.EMeterID not in (1,2)
     </select>
 
+    <select id="getExceptionData" resultType="java.util.Map">
+        select e.EMeterName,p.PowerTotal
+        from poweranalyze p,emeters e
+        where p.EMeterID = e.EMeterID and p.TimeTag = #{day} and e.EMeterID not in (1,2)
+    </select>
 </mapper>

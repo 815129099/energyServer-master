@@ -313,6 +313,22 @@ public class DateUtil {
         return ft.format(new Date());
     }
 
+    public static List<String> getSecondListByNum(int num){
+        List<String> list = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        Date date = null;
+        SimpleDateFormat ft = new SimpleDateFormat("HH:mm:ss");
+        for(int i=0;i<num;i++){
+            if(i==0){
+                list.add(0,ft.format(calendar.getTime()));
+            }else{
+                calendar.add(Calendar.SECOND,-2);
+                list.add(0,ft.format(calendar.getTime()));
+            }
+        }
+        return list;
+    }
+
     public static void main(String[] args) throws ParseException {
         /*
         List<String> list= getWeekDay();
@@ -326,12 +342,14 @@ public class DateUtil {
        // System.out.println(getBeforeDay());
        // System.out.println(getBeforeDay1());
         //System.out.println(getWeekDay());
-        System.out.println(getYesDay());
-        NumberFormat num = NumberFormat.getPercentInstance();
-        num.setMaximumIntegerDigits(3);
-        num.setMaximumFractionDigits(4);
-        System.out.println(num.format(0.12));
-        System.out.println(num.format(43.12));
-        System.out.println(num.format(43.1245632));
+        //System.out.println(getYesDay());
+       // NumberFormat num = NumberFormat.getPercentInstance();
+       // num.setMaximumIntegerDigits(3);
+       // num.setMaximumFractionDigits(4);
+       // System.out.println(num.format(0.12));
+       // System.out.println(num.format(43.12));
+     //   System.out.println(num.format(43.1245632));
+        System.out.println(getNowByDay());
+
     }
 }

@@ -25,4 +25,6 @@ public interface OrigRtvDao extends BaseMapper<OrigRtv> {
     List<Map> getInstantPowerAnalyzeByDay(Params params);
 
     List<Map> getInstantPowerAnalyzeByWeek(Params params);
+    //定时查询电流
+    List<Map> getInstantI();
 }

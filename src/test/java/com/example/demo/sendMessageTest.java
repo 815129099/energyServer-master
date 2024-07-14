@@ -7,8 +7,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Random;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class sendMessageTest {
     /**
      * 随机生成6位验证码

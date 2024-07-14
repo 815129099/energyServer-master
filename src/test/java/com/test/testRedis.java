@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.StringRedisTemplate;
+//import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -24,9 +24,6 @@ import java.util.*;
 @ContextConfiguration(classes = DemoApplication.class)
 @SpringBootTest
 public class testRedis {
-
-    @Autowired
-    StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     private ChargeUtil chargeUtil;
@@ -41,11 +38,6 @@ public class testRedis {
     private ScheduledTask scheduledTask;
     @Autowired
     private UtilDao utilDao;
-    @Test
-    public void testTemplate(){
-        stringRedisTemplate.opsForValue().set("aaa","2112");
-        System.out.println(stringRedisTemplate.opsForValue().get("aaa"));
-    }
 
     //计算峰平谷
     @Test

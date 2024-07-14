@@ -390,4 +390,26 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
     public List<Map> getPowerTotal() {
         return this.origDLDao.getPowerTotal(DateUtil.getYesDay().get(0));
     }
+
+
+    @Override
+    public List<List<Object>> getExceptionData() {
+        List<Map> list = this.origDLDao.getExceptionData(DateUtil.getYesDay().get(0));
+        if(list.size()>0){
+            List<List<Object>> dataList = new ArrayList<>();
+            for(Map s:list){
+                List<Object> objects = new ArrayList<>();
+                objects.add(s.get("EMeterName"));
+                double num = (Double) s.get("PowerTotal");
+                if(num>0){
+                    objects.add("<span  class='colorGrass'>正常</span>");
+                }else {
+                    objects.add("<span  class='colorRed'>异常</span>");
+                }
+                dataList.add(objects);
+            }
+            return dataList;
+        }
+        return null;
+    }
 }

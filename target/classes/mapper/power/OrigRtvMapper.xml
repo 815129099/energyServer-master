@@ -49,4 +49,11 @@
           FROM EMeters e,OrigRtv o,Estations s
           where  e.EMeterName = #{EMeterName} and e.EStationID=s.EStationID and s.EStationName=#{EStationName} and e.EMeterID=o.EMeterID and  o.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 7 DAY)
     </select>
+
+    <select id="getInstantI" resultType="java.util.LinkedHashMap">
+        select date_format(o.TimeTag,"%H:%i") Time,o.Ia,o.Ib,o.Ic,ROUND(e.CT1/e.CT2,0) I
+        from EMeters e,origrtv o
+        where e.EMeterID=o.EMeterID and o.EMeterID= 1 and o.TimeTag BETWEEN DATE_SUB(NOW(),INTERVAL 4 HOUR) and NOW()
+        ORDER BY o.TimeTag
+    </select>
 </mapper>
