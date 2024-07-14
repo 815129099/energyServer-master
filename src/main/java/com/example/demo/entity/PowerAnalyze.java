@@ -61,6 +61,19 @@ public class PowerAnalyze extends Model<PowerAnalyze> {
      */
     private Date CreatedDateTime;
 
+    /**
+     * 工号
+     */
+    private String geNumber;
+
+    public String getGeNumber() {
+        return geNumber;
+    }
+
+    public void setGeNumber(String geNumber) {
+        this.geNumber = geNumber;
+    }
+
     public Integer getId() {
         return id;
     }

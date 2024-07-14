@@ -13,6 +13,7 @@
         <result column="ravine" property="ravine" />
         <result column="peakPercent" property="peakPercent" />
         <result column="CreatedDateTime" property="CreatedDateTime" />
+        <result column="geNumber" property="geNumber" />
     </resultMap>
 
     <insert id="insertPowerAnalyze" parameterType="com.example.demo.entity.PowerAnalyze">
@@ -36,6 +37,9 @@
         </if>
         <if test="dateType=='day'">
             and p.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 30 DAY)
+        </if>
+        <if test="geNumber != null and geNumber != ''" >
+            and p.geNumber = #{geNumber}
         </if>
         order by TimeTag
     </select>

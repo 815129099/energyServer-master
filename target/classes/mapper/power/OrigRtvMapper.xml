@@ -31,6 +31,7 @@
         <result column="Status" property="Status" />
         <result column="CreatedDateTime" property="CreatedDateTime" />
         <result column="UpdatedDateTime" property="UpdatedDateTime" />
+        <result column="geNumber" property="geNumber" />
     </resultMap>
 
     <insert id="insertOrigRtv" parameterType="com.example.demo.entity.OrigRtv">
@@ -42,12 +43,18 @@
           SELECT date_format(o.TimeTag,"%c-%e %H:%i") Time,o.Ua Ua,o.Ub Ub,o.Uc Uc,o.Ia Ia,o.Ib Ib,o.Ic Ic,ROUND(e.PT1/e.PT2,0) U,ROUND(e.CT1/e.CT2,0) I,e.MultiplyRatio
           FROM EMeters e,OrigRtv o,Estations s
           where  e.EMeterName = #{EMeterName} and e.EStationID=s.EStationID and s.EStationName=#{EStationName} and e.EMeterID=o.EMeterID and  o.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 24 HOUR)
+          <if test="geNumber != null and geNumber != ''" >
+              and o.geNumber = #{geNumber}
+          </if>
     </select>
 
     <select id="getInstantPowerAnalyzeByWeek" parameterType="com.example.demo.entity.Params" resultType="java.util.LinkedHashMap">
           SELECT date_format(o.TimeTag,"%c-%e %H:%i") Time,o.Ua Ua,o.Ub Ub,o.Uc Uc,o.Ia Ia,o.Ib Ib,o.Ic Ic,ROUND(e.PT1/e.PT2,0) U,ROUND(e.CT1/e.CT2,0) I,e.MultiplyRatio
           FROM EMeters e,OrigRtv o,Estations s
           where  e.EMeterName = #{EMeterName} and e.EStationID=s.EStationID and s.EStationName=#{EStationName} and e.EMeterID=o.EMeterID and  o.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 7 DAY)
+        <if test="geNumber != null and geNumber != ''" >
+            and o.geNumber = #{geNumber}
+        </if>
     </select>
 
     <select id="getInstantI" resultType="java.util.LinkedHashMap">

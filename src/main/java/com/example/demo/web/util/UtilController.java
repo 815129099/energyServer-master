@@ -50,8 +50,8 @@ public class UtilController {
 
     @RequestMapping(value = "/menu.do",produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Result getMenuJson() {
-        Object menu = utilService.getMenuJson();
+    public Result getMenuJson(@RequestBody Params param) {
+        Object menu = utilService.getMenuJson(param);
         Result result = ResultUtil.success();
         result.setData(menu);
         return result;
@@ -123,8 +123,11 @@ public class UtilController {
 
     @RequestMapping(value = "/getTotalPower.do",produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
     @ResponseBody
-    public Result getTotalPower() {
-        Map map = this.utilService.getTotalPower();
+    public Result getTotalPower(@RequestBody Params param) {
+        if (StringUtils.isEmpty(param.getGeNumber())) {
+            param.setGeNumber("admin");
+        }
+        Map map = this.utilService.getTotalPower(param);
         Result result = ResultUtil.success();
         result.setData(map);
         return result;

@@ -8,8 +8,10 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.example.demo.util.date.DateUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -137,64 +139,67 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
         List<Map> list = new ArrayList<>();
         //获取电量数据
         maps = origDLDao.getPowerData(param);
-        //获取电表信息
-        maps1 = origDLDao.getPowerData1(param);
-        for (Map m :maps1) {
-            //过滤出该电表下的数据
-            List<Map> mapList = maps.stream().filter(ms1 ->m.get("EMeterID").equals(ms1.get("EMeterID"))).collect(Collectors.toList());
-            //mapList.stream().forEach(map1 -> System.out.println(map1.get("EMeterID").toString()+","+DateUtil.DateToString((Date)map1.get("TimeTag"))+","+map1.get("ZxygZ")
-             //       +","+map1.get("FxygZ")));
-            //如果该电表在该时间段没数据，则--
-            if(mapList.size()==0){
-                Map<String,Object> map1 = new HashMap<>();
-                map1.put("EMeterID",m.get("EMeterID"));
-                map1.put("EMeterName",m.get("EMeterName"));
-                int MultiplyRatio = Integer.parseInt(m.get("MultiplyRatio").toString());
-                Double num;
-                if(MultiplyRatio==1){
-                    num = Double.valueOf(m.get("num").toString());
+        if (!CollectionUtils.isEmpty(maps)) {
+            //获取电表信息
+            maps1 = origDLDao.getPowerData1(param);
+            for (Map m :maps1) {
+                //过滤出该电表下的数据
+                List<Map> mapList = maps.stream().filter(ms1 ->m.get("EMeterID").equals(ms1.get("EMeterID"))).collect(Collectors.toList());
+                //mapList.stream().forEach(map1 -> System.out.println(map1.get("EMeterID").toString()+","+DateUtil.DateToString((Date)map1.get("TimeTag"))+","+map1.get("ZxygZ")
+                //       +","+map1.get("FxygZ")));
+                //如果该电表在该时间段没数据，则--
+                if(mapList.size()==0){
+                    Map<String,Object> map1 = new HashMap<>();
+                    map1.put("EMeterID",m.get("EMeterID"));
+                    map1.put("EMeterName",m.get("EMeterName"));
+                    int MultiplyRatio = Integer.parseInt(m.get("MultiplyRatio").toString());
+                    Double num;
+                    if(MultiplyRatio==1){
+                        num = Double.valueOf(m.get("num").toString());
+                    }else {
+                        num = 1.0;
+                    }
+                    map1.put("num",num);
+                    map1.put("beginTime", DateUtil.DateToString(param.getBeginTime()));
+                    map1.put("endTime",DateUtil.DateToString(param.getEndTime()));
+                    map1.put("difValue","--");
+                    map1.put("beginNumber","--");
+                    map1.put("endNumber","--");
+                    map1.put("powerTotal","--");
+                    list.add(map1);
                 }else {
-                    num = 1.0;
+                    //如果有数据
+                    //num是倍率
+                    Map<String,Object> map1 = new LinkedHashMap<>();
+                    //MultiplyRatio变电比
+                    int MultiplyRatio = Integer.parseInt(mapList.get(0).get("MultiplyRatio").toString());
+                    Double num;
+                    if(MultiplyRatio==1){
+                        num = Double.valueOf(m.get("num").toString());
+                    }else {
+                        num = 1.0;
+                    }
+                    //beginNumber开始读数、endNumber结束读数、difValue读数差、powerTotal总电量
+                    double beginNumber=0.0 ,endNumber=0.0 ,difValue=0.0 ,powerTotal=0.0 ;
+                    beginNumber = Double.valueOf(mapList.get(0).get(param.getPowerType()).toString());
+                    endNumber = Double.valueOf(mapList.get(mapList.size()-1).get(param.getPowerType()).toString());
+                    difValue = endNumber-beginNumber;
+                    powerTotal = difValue*num;
+                    map1.put("num",num);
+                    map1.put("EMeterName",mapList.get(0).get("EMeterName"));
+                    map1.put("EMeterID",mapList.get(0).get("EMeterID"));
+                    map1.put("difValue",String.format("%.4f",difValue));
+                    map1.put("beginNumber",String.format("%.4f",beginNumber));
+                    map1.put("endNumber",String.format("%.4f",endNumber));
+                    map1.put("powerTotal",String.format("%.4f",powerTotal));
+                    map1.put("beginTime", DateUtil.DateToString((Date) mapList.get(0).get("TimeTag")));
+                    map1.put("endTime",DateUtil.DateToString((Date) mapList.get(mapList.size()-1).get("TimeTag")));
+                    list.add(map1);
                 }
-                map1.put("num",num);
-                map1.put("beginTime", DateUtil.DateToString(param.getBeginTime()));
-                map1.put("endTime",DateUtil.DateToString(param.getEndTime()));
-                map1.put("difValue","--");
-                map1.put("beginNumber","--");
-                map1.put("endNumber","--");
-                map1.put("powerTotal","--");
-                list.add(map1);
-            }else {
-                //如果有数据
-                //num是倍率
-                Map<String,Object> map1 = new LinkedHashMap<>();
-                //MultiplyRatio变电比
-                int MultiplyRatio = Integer.parseInt(mapList.get(0).get("MultiplyRatio").toString());
-                Double num;
-                if(MultiplyRatio==1){
-                    num = Double.valueOf(m.get("num").toString());
-                }else {
-                    num = 1.0;
-                }
-                //beginNumber开始读数、endNumber结束读数、difValue读数差、powerTotal总电量
-                double beginNumber=0.0 ,endNumber=0.0 ,difValue=0.0 ,powerTotal=0.0 ;
-                beginNumber = Double.valueOf(mapList.get(0).get(param.getPowerType()).toString());
-                endNumber = Double.valueOf(mapList.get(mapList.size()-1).get(param.getPowerType()).toString());
-                difValue = endNumber-beginNumber;
-                powerTotal = difValue*num;
-                map1.put("num",num);
-                map1.put("EMeterName",mapList.get(0).get("EMeterName"));
-                map1.put("EMeterID",mapList.get(0).get("EMeterID"));
-                map1.put("difValue",String.format("%.4f",difValue));
-                map1.put("beginNumber",String.format("%.4f",beginNumber));
-                map1.put("endNumber",String.format("%.4f",endNumber));
-                map1.put("powerTotal",String.format("%.4f",powerTotal));
-                map1.put("beginTime", DateUtil.DateToString((Date) mapList.get(0).get("TimeTag")));
-                map1.put("endTime",DateUtil.DateToString((Date) mapList.get(mapList.size()-1).get("TimeTag")));
-                list.add(map1);
-            }
 
+            }
         }
+
         /*
         list.stream().forEach(map1 -> System.out.println(map1.get("EMeterName").toString()+","+map1.get("powerTotal").toString()+","+
                 map1.get("num").toString()+","+map1.get("difValue").toString()+","+
@@ -219,67 +224,71 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
         List<LinkedHashMap> newMaps = new ArrayList<LinkedHashMap>();
         if(params.getDateType().equals("hour")){
             maps = origDLDao.getPowerAnalyzeByHour(params);
-            int MultiplyRatio = Integer.parseInt(maps.get(0).get("MultiplyRatio").toString());
-            Double num;
-            if(MultiplyRatio==1){
-                num = Double.valueOf(maps.get(0).get("num").toString());
-            }else {
-                num = 1.0;
-            }
-            for(int i=0;i<maps.size()-1;i++){
-                //用于数据显示
-                LinkedHashMap map1 = new LinkedHashMap();
-                String Time = maps.get(i).get("Time").toString();
-                map1.put("Time", Time);
-
-                map1.put("num",num);
-                map1.put("beginTime",DateUtil.DateToString((Date) maps.get(i).get("TimeTag")));
-                map1.put("endTime",DateUtil.DateToString((Date)maps.get(i+1).get("TimeTag")));
-                Double beginNumber = 0.0,endNumber = 0.0;
-                beginNumber = Double.valueOf(maps.get(i).get(params.getPowerType()).toString());
-                endNumber = Double.valueOf(maps.get(i+1).get(params.getPowerType()).toString());
-
-                map1.put("beginNumber",beginNumber);
-                map1.put("endNumber",endNumber);
-                int totalNumber = (int)((endNumber-beginNumber)*num);
-                map1.put("totalNumber",totalNumber);
-                newMaps.add(i,map1);
-                //用于图表显示
-                Map<String ,Object> map2 = new LinkedHashMap<>();
-                map2.put("name",Time);
-                map2.put("value",totalNumber);
-                chartList.add(i,map2);
-            }
-        }else if(params.getDateType().equals("day")){
-            maps = origDLDao.getPowerAnalyzeByDay(params);
-            for(int i=0;i<maps.size()-1;i++){
-                //用于数据显示
-                LinkedHashMap map1 = new LinkedHashMap();
-                String Time = maps.get(i).get("Time").toString();
-                map1.put("Time", Time);
-                int MultiplyRatio = Integer.parseInt(maps.get(i).get("MultiplyRatio").toString());
+            if (!CollectionUtils.isEmpty(maps)) {
+                int MultiplyRatio = Integer.parseInt(maps.get(0).get("MultiplyRatio").toString());
                 Double num;
                 if(MultiplyRatio==1){
-                    num = Double.valueOf(maps.get(i).get("num").toString());
+                    num = Double.valueOf(maps.get(0).get("num").toString());
                 }else {
                     num = 1.0;
                 }
-                map1.put("num",num);
-                map1.put("beginTime",DateUtil.DateToString((Date) maps.get(i).get("TimeTag")));
-                map1.put("endTime",DateUtil.DateToString((Date)maps.get(i+1).get("TimeTag")));
-                Double beginNumber = 0.0,endNumber = 0.0;
-                beginNumber = Double.valueOf(maps.get(i).get(params.getPowerType()).toString());
-                endNumber = Double.valueOf(maps.get(i+1).get(params.getPowerType()).toString());
-                map1.put("beginNumber",beginNumber);
-                map1.put("endNumber",endNumber);
-                int totalNumber = (int)((endNumber-beginNumber)*num);
-                map1.put("totalNumber",totalNumber);
-                newMaps.add(i,map1);
-                //用于图表显示
-                Map<String ,Object> map2 = new LinkedHashMap<>();
-                map2.put("name",Time);
-                map2.put("value",totalNumber);
-                chartList.add(i,map2);
+                for(int i=0;i<maps.size()-1;i++){
+                    //用于数据显示
+                    LinkedHashMap map1 = new LinkedHashMap();
+                    String Time = maps.get(i).get("Time").toString();
+                    map1.put("Time", Time);
+
+                    map1.put("num",num);
+                    map1.put("beginTime",DateUtil.DateToString((Date) maps.get(i).get("TimeTag")));
+                    map1.put("endTime",DateUtil.DateToString((Date)maps.get(i+1).get("TimeTag")));
+                    Double beginNumber = 0.0,endNumber = 0.0;
+                    beginNumber = Double.valueOf(maps.get(i).get(params.getPowerType()).toString());
+                    endNumber = Double.valueOf(maps.get(i+1).get(params.getPowerType()).toString());
+
+                    map1.put("beginNumber",beginNumber);
+                    map1.put("endNumber",endNumber);
+                    int totalNumber = (int)((endNumber-beginNumber)*num);
+                    map1.put("totalNumber",totalNumber);
+                    newMaps.add(i,map1);
+                    //用于图表显示
+                    Map<String ,Object> map2 = new LinkedHashMap<>();
+                    map2.put("name",Time);
+                    map2.put("value",totalNumber);
+                    chartList.add(i,map2);
+                }
+            }
+        }else if(params.getDateType().equals("day")){
+            maps = origDLDao.getPowerAnalyzeByDay(params);
+            if (!CollectionUtils.isEmpty(maps)) {
+                for(int i=0;i<maps.size()-1;i++){
+                    //用于数据显示
+                    LinkedHashMap map1 = new LinkedHashMap();
+                    String Time = maps.get(i).get("Time").toString();
+                    map1.put("Time", Time);
+                    int MultiplyRatio = Integer.parseInt(maps.get(i).get("MultiplyRatio").toString());
+                    Double num;
+                    if(MultiplyRatio==1){
+                        num = Double.valueOf(maps.get(i).get("num").toString());
+                    }else {
+                        num = 1.0;
+                    }
+                    map1.put("num",num);
+                    map1.put("beginTime",DateUtil.DateToString((Date) maps.get(i).get("TimeTag")));
+                    map1.put("endTime",DateUtil.DateToString((Date)maps.get(i+1).get("TimeTag")));
+                    Double beginNumber = 0.0,endNumber = 0.0;
+                    beginNumber = Double.valueOf(maps.get(i).get(params.getPowerType()).toString());
+                    endNumber = Double.valueOf(maps.get(i+1).get(params.getPowerType()).toString());
+                    map1.put("beginNumber",beginNumber);
+                    map1.put("endNumber",endNumber);
+                    int totalNumber = (int)((endNumber-beginNumber)*num);
+                    map1.put("totalNumber",totalNumber);
+                    newMaps.add(i,map1);
+                    //用于图表显示
+                    Map<String ,Object> map2 = new LinkedHashMap<>();
+                    map2.put("name",Time);
+                    map2.put("value",totalNumber);
+                    chartList.add(i,map2);
+                }
             }
         }
 

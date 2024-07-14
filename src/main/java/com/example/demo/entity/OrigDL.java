@@ -76,6 +76,19 @@ public class OrigDL extends Model<OrigDL> {
      */
     private Date UpdatedDateTime;
 
+    /**
+     * 工号
+     */
+    private String geNumber;
+
+    public String getGeNumber() {
+        return geNumber;
+    }
+
+    public void setGeNumber(String geNumber) {
+        this.geNumber = geNumber;
+    }
+
     public Integer getErtuID() {
         return ErtuID;
     }

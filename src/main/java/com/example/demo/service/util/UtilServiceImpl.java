@@ -1,6 +1,7 @@
 package com.example.demo.service.util;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.entity.Params;
 import com.example.demo.entity.Record;
 import com.example.demo.entity.TreeNode;
 import com.example.demo.mapper.util.UtilDao;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -36,13 +38,15 @@ public class UtilServiceImpl implements UtilService {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public Object getMenuJson() {
+    public Object getMenuJson(Params param) {
         //   if(redisTemplate.hasKey("menuList")){
         //       redisTemplate.delete("menuList");
         //     }
         Object o;
-        //   if(redisTemplate.opsForValue().get("menuList")==null) {
-        List<LinkedHashMap> menuList = utilDao.getMenuList();
+        if (StringUtils.isEmpty(param.getGeNumber())) {
+            param.setGeNumber("admin");
+        }
+        List<LinkedHashMap> menuList = utilDao.getMenuList(param.getGeNumber());
         //用于判断是否已存在当前节点
         List<Object> strList = new ArrayList<Object>();
         List<TreeNode> treeNodeList = new ArrayList<TreeNode>();
@@ -358,32 +362,34 @@ public class UtilServiceImpl implements UtilService {
     }
 
     @Override
-    public Map getTotalPower() {
+    public Map getTotalPower(Params param) {
         Map map = new HashMap();
-        List<Map> maps = this.utilDao.getTotalPower();
+        List<Map> maps = this.utilDao.getTotalPower(param.getGeNumber());
         List<Map> mapList = new ArrayList<>();
-        //根据EMeterID和Time去重
-        List<Map> mapList1 = maps.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(()->new TreeSet<>(Comparator.comparing(m->m.get("Time").toString()+m.get("EMeterID")))),ArrayList::new ));
-        int MultiplyRatio1 = Integer.parseInt(maps.get(0).get("MultiplyRatio").toString());
-        int MultiplyRatio2 = Integer.parseInt(maps.get(1).get("MultiplyRatio").toString());
-        Double num1,num2;
-        if (MultiplyRatio1 == 1) {
-            num1 = Double.valueOf(maps.get(0).get("num").toString());
-        } else {
-            num1 = 1.0;
-        }
-        if (MultiplyRatio2 == 1) {
-            num2 = Double.valueOf(maps.get(1).get("num").toString());
-        } else {
-            num2 = 1.0;
-        }
-        for(int i=0;i<mapList1.size()-2;i+=2){
-            Map map1 = new HashMap();
-            double powerTotal1 = (Double.valueOf(mapList1.get(i+2).get("ZxygZ").toString())-Double.valueOf(mapList1.get(i).get("ZxygZ").toString()))*num1;
-            double powerTotal2 = (Double.valueOf(mapList1.get(i+3).get("ZxygZ").toString())-Double.valueOf(mapList1.get(i+1).get("ZxygZ").toString()))*num2;
-            map1.put("Time", mapList1.get(i).get("Time"));
-            map1.put("PowerTotal", powerTotal1+powerTotal2);
-            mapList.add(map1);
+        if (!CollectionUtils.isEmpty(maps)) {
+            //根据EMeterID和Time去重
+            List<Map> mapList1 = maps.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(()->new TreeSet<>(Comparator.comparing(m->m.get("Time").toString()+m.get("EMeterID")))),ArrayList::new ));
+            int MultiplyRatio1 = Integer.parseInt(maps.get(0).get("MultiplyRatio").toString());
+            int MultiplyRatio2 = Integer.parseInt(maps.get(1).get("MultiplyRatio").toString());
+            Double num1,num2;
+            if (MultiplyRatio1 == 1) {
+                num1 = Double.valueOf(maps.get(0).get("num").toString());
+            } else {
+                num1 = 1.0;
+            }
+            if (MultiplyRatio2 == 1) {
+                num2 = Double.valueOf(maps.get(1).get("num").toString());
+            } else {
+                num2 = 1.0;
+            }
+            for(int i=0;i<mapList1.size()-2;i+=2){
+                Map map1 = new HashMap();
+                double powerTotal1 = (Double.valueOf(mapList1.get(i+2).get("ZxygZ").toString())-Double.valueOf(mapList1.get(i).get("ZxygZ").toString()))*num1;
+                double powerTotal2 = (Double.valueOf(mapList1.get(i+3).get("ZxygZ").toString())-Double.valueOf(mapList1.get(i+1).get("ZxygZ").toString()))*num2;
+                map1.put("Time", mapList1.get(i).get("Time"));
+                map1.put("PowerTotal", powerTotal1+powerTotal2);
+                mapList.add(map1);
+            }
         }
         map.put("list", mapList);
         return map;

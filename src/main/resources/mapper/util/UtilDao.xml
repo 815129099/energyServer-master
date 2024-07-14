@@ -9,6 +9,9 @@
         left JOIN EMeters m
         on m.EStationID = e.EStationID
         where e.FactoryName!="未确定" and m.Online=1 and m.EMeterName!=""
+        <if test="geNumber != null and geNumber != ''" >
+            and e.geNumber = #{geNumber} and m.geNumber = #{geNumber}
+        </if>
     </select>
 
     <select id="getErtusList" resultType="java.util.LinkedHashMap">
@@ -86,6 +89,9 @@
         SELECT e.EMeterID,o.ZxygZ,o.FxygZ,o.ZxwgZ,o.FxwgZ,o.TimeTag,(e.PT1*e.CT1)/(e.CT2*e.PT2) num,date_format(o.TimeTag,"%c-%d") Time,e.MultiplyRatio
         FROM OrigDL o,EMeters e
         where e.EMeterID in (1,2) and o.EMeterID=e.EMeterID and  o.TimeTag BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) and CURDATE()
+        <if test="geNumber != null and geNumber != ''" >
+            and o.geNumber = #{geNumber}
+        </if>
         order by TimeTag,EMeterID
     </select>
 

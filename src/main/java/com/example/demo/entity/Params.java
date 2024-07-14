@@ -17,6 +17,16 @@ public class Params {
     //时间间隔
     private String dateType;
     private int EMeterID;
+    //登录用户
+    private String geNumber;
+
+    public String getGeNumber() {
+        return geNumber;
+    }
+
+    public void setGeNumber(String geNumber) {
+        this.geNumber = geNumber;
+    }
 
     public int getEMeterID() {
         return EMeterID;

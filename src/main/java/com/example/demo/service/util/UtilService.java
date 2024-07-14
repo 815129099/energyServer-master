@@ -1,5 +1,7 @@
 package com.example.demo.service.util;
 
+import com.example.demo.entity.Params;
+import com.example.demo.entity.PowerParam;
 import com.example.demo.entity.Record;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.Map;
  */
 public interface UtilService  {
 
-    Object getMenuJson();
+    Object getMenuJson(Params param);
 
     Object getErtusJson();
 
@@ -32,7 +34,7 @@ public interface UtilService  {
     //通过时间段、采集器ID列表、电表ID列表、采集类型
     boolean getDataByErtuID(byte[] tm,int[] eList,List<List> mList,int type);
 
-    Map getTotalPower();
+    Map getTotalPower(Params param);
 
 
 }

@@ -2,6 +2,7 @@ package com.example.demo.mapper.util;
 
 
 
+import com.example.demo.entity.Params;
 import com.example.demo.entity.Record;
 import com.example.demo.entity.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,7 +23,7 @@ import java.util.Map;
  */
 @Mapper
 public interface UtilDao  {
-    List<LinkedHashMap> getMenuList();
+    List<LinkedHashMap> getMenuList(@Param("geNumber") String geNumber);
 
     List<LinkedHashMap> getErtusList();
 
@@ -44,5 +45,5 @@ public interface UtilDao  {
     List<Map> getEMeterNumByErtuID(int ErtuID);
     //<!--通过采集器ID获取电表信息-->
     List<Map> getEMeterNumByEMeterID(List<Integer> mList);
-    List<Map> getTotalPower();
+    List<Map> getTotalPower(@Param("geNumber") String geNumber);
 }
