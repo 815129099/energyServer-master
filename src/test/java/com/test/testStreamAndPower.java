@@ -201,7 +201,7 @@ public class testStreamAndPower {
     @Test
     public void test4(){
         List<Map> mapList = new ArrayList<>();
-        List<Map> maps = this.utilDao.getTotalPower("admin");
+        List<Map> maps = this.utilDao.getTotalPower("admin",null,null);
         List<String> dateList = DateUtil.getWeekDay();
         //distinct去重保留第一个出现的
        // maps.stream().filter(map -> map.get("EMeterID").toString().equals("1")).filter(distinctByKey(map -> map.get("Time")))

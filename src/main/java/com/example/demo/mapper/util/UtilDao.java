@@ -8,6 +8,7 @@ import com.example.demo.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,5 +46,6 @@ public interface UtilDao  {
     List<Map> getEMeterNumByErtuID(int ErtuID);
     //<!--通过采集器ID获取电表信息-->
     List<Map> getEMeterNumByEMeterID(List<Integer> mList);
-    List<Map> getTotalPower(@Param("geNumber") String geNumber);
+    List<Map> getTotalPower(@Param("geNumber") String geNumber, @Param("eMeterID") Integer eMeterID, @Param("maxDate") Date maxDate);
+    Date getMaxTime(@Param("geNumber") String geNumber, @Param("eMeterID") Integer eMeterID);
 }

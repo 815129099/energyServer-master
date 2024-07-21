@@ -364,30 +364,43 @@ public class UtilServiceImpl implements UtilService {
     @Override
     public Map getTotalPower(Params param) {
         Map map = new HashMap();
-        List<Map> maps = this.utilDao.getTotalPower(param.getGeNumber());
+        if ("admin".equals(param.getGeNumber())) {
+            param.setEMeterID(1);
+        } else if ("user".equals(param.getGeNumber())) {
+            param.setEMeterID(19);
+        } else if ("user2".equals(param.getGeNumber())) {
+            param.setEMeterID(99);
+        }
+        //查询最大的日期
+        Date maxTime = this.utilDao.getMaxTime(param.getGeNumber(), param.getEMeterID());
+        if (null == maxTime) {
+            maxTime = new Date();
+        }
+
+        List<Map> maps = this.utilDao.getTotalPower(param.getGeNumber(), param.getEMeterID(), maxTime);
         List<Map> mapList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(maps)) {
             //根据EMeterID和Time去重
             List<Map> mapList1 = maps.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(()->new TreeSet<>(Comparator.comparing(m->m.get("Time").toString()+m.get("EMeterID")))),ArrayList::new ));
             int MultiplyRatio1 = Integer.parseInt(maps.get(0).get("MultiplyRatio").toString());
-            int MultiplyRatio2 = Integer.parseInt(maps.get(1).get("MultiplyRatio").toString());
+//            int MultiplyRatio2 = Integer.parseInt(maps.get(1).get("MultiplyRatio").toString());
             Double num1,num2;
             if (MultiplyRatio1 == 1) {
                 num1 = Double.valueOf(maps.get(0).get("num").toString());
             } else {
                 num1 = 1.0;
             }
-            if (MultiplyRatio2 == 1) {
-                num2 = Double.valueOf(maps.get(1).get("num").toString());
-            } else {
-                num2 = 1.0;
-            }
-            for(int i=0;i<mapList1.size()-2;i+=2){
+//            if (MultiplyRatio2 == 1) {
+//                num2 = Double.valueOf(maps.get(1).get("num").toString());
+//            } else {
+//                num2 = 1.0;
+//            }
+            for(int i=0;i<mapList1.size()-1;i+=1){
                 Map map1 = new HashMap();
-                double powerTotal1 = (Double.valueOf(mapList1.get(i+2).get("ZxygZ").toString())-Double.valueOf(mapList1.get(i).get("ZxygZ").toString()))*num1;
-                double powerTotal2 = (Double.valueOf(mapList1.get(i+3).get("ZxygZ").toString())-Double.valueOf(mapList1.get(i+1).get("ZxygZ").toString()))*num2;
+                double powerTotal1 = (Double.valueOf(mapList1.get(i+1).get("ZxygZ").toString())-Double.valueOf(mapList1.get(i).get("ZxygZ").toString()))*num1;
+//                double powerTotal2 = (Double.valueOf(mapList1.get(i+3).get("ZxygZ").toString())-Double.valueOf(mapList1.get(i+1).get("ZxygZ").toString()))*num2;
                 map1.put("Time", mapList1.get(i).get("Time"));
-                map1.put("PowerTotal", powerTotal1+powerTotal2);
+                map1.put("PowerTotal", powerTotal1);
                 mapList.add(map1);
             }
         }

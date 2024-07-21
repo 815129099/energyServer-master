@@ -8,40 +8,11 @@
   <component name="ChangeListManager">
     <list default="true" id="b8d08993-f42a-4f80-90bf-d659b16231a7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/OrigDL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/OrigDL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/OrigRtv.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/OrigRtv.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/Params.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/PowerAnalyze.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/entity/PowerAnalyze.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/util/UtilDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/mapper/util/UtilDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/service/power/OrigDLServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/service/power/OrigDLServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/service/util/UtilService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/service/util/UtilService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/service/util/UtilServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/service/util/UtilServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/util/ScheduledTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/util/ScheduledTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/web/util/UtilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/web/util/UtilController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/power/OrigDLMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/power/OrigDLMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/power/OrigRtvMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/power/OrigRtvMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/power/PowerAnalyzeMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/power/PowerAnalyzeMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/util/UtilDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/util/UtilDao.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/test/testStreamAndPower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/test/testStreamAndPower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/entity/OrigDL.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/entity/OrigDL.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/entity/OrigRtv.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/entity/OrigRtv.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/entity/Params.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/entity/Params.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/entity/PowerAnalyze.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/entity/PowerAnalyze.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/mapper/util/UtilDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/mapper/util/UtilDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/power/OrigDLServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/power/OrigDLServiceImpl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/power/OrigDLServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/power/OrigDLServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/util/UtilService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/util/UtilService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/util/UtilServiceImpl$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/util/UtilServiceImpl$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/util/UtilServiceImpl$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/util/UtilServiceImpl$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/util/UtilServiceImpl$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/util/UtilServiceImpl$3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/service/util/UtilServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/service/util/UtilServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/util/ScheduledTask.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/util/ScheduledTask.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/web/util/UtilController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/web/util/UtilController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/power/OrigDLMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/power/OrigDLMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/power/OrigRtvMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/power/OrigRtvMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/power/PowerAnalyzeMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/power/PowerAnalyzeMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mapper/util/UtilDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/util/UtilDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/test/testStreamAndPower.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/test/testStreamAndPower.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -417,7 +388,8 @@
       <workItem from="1645262497476" duration="6185000" />
       <workItem from="1685772765917" duration="4945000" />
       <workItem from="1705476658838" duration="2845000" />
-      <workItem from="1720920285482" duration="8267000" />
+      <workItem from="1720920285482" duration="9716000" />
+      <workItem from="1721525475286" duration="9029000" />
     </task>
     <task id="LOCAL-00001" summary="提交">
       <created>1720921995773</created>
@@ -426,7 +398,14 @@
       <option name="project" value="LOCAL" />
       <updated>1720921995773</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="分客户">
+      <created>1720942986148</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1720942986148</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView">
@@ -471,130 +450,144 @@
   <component name="VcsManagerConfiguration">
     <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="true" />
     <MESSAGE value="提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="提交" />
+    <MESSAGE value="分客户" />
+    <option name="LAST_COMMIT_MESSAGE" value="分客户" />
   </component>
   <component name="WindowStateProjectService">
     <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser" timestamp="1720938678230">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="574" y="106" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1720938678230" />
-    <state x="267" y="10" key="CommitChangelistDialog2" timestamp="1720921971500">
+    <state x="267" y="10" key="CommitChangelistDialog2" timestamp="1720942980824">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="267" y="10" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1720921971500" />
-    <state width="1493" height="327" key="GridCell.Tab.0.bottom" timestamp="1720942732482">
+    <state x="267" y="10" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1720942980824" />
+    <state width="541" height="466" key="DebuggerActiveHint" timestamp="1721544199252">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="327" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1720942732482" />
-    <state width="1493" height="327" key="GridCell.Tab.0.center" timestamp="1720942732482">
+    <state width="541" height="466" key="DebuggerActiveHint/0.0.1536.824@0.0.1536.824" timestamp="1721544199252" />
+    <state width="1493" height="396" key="GridCell.Tab.0.bottom" timestamp="1721545610029">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="327" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1720942732482" />
-    <state width="1493" height="327" key="GridCell.Tab.0.left" timestamp="1720942732482">
+    <state width="1493" height="396" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1721545610029" />
+    <state width="1493" height="396" key="GridCell.Tab.0.center" timestamp="1721545610028">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="327" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1720942732482" />
-    <state width="1493" height="327" key="GridCell.Tab.0.right" timestamp="1720942732482">
+    <state width="1493" height="396" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1721545610028" />
+    <state width="1493" height="396" key="GridCell.Tab.0.left" timestamp="1721545610028">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="327" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1720942732482" />
-    <state width="1493" height="327" key="GridCell.Tab.1.bottom" timestamp="1720942709429">
+    <state width="1493" height="396" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1721545610028" />
+    <state width="1493" height="396" key="GridCell.Tab.0.right" timestamp="1721545610029">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="327" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1720942709429" />
-    <state width="1493" height="327" key="GridCell.Tab.1.center" timestamp="1720942709429">
+    <state width="1493" height="396" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1721545610029" />
+    <state width="1493" height="396" key="GridCell.Tab.1.bottom" timestamp="1721545610029">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="327" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1720942709429" />
-    <state width="1493" height="327" key="GridCell.Tab.1.left" timestamp="1720942709429">
+    <state width="1493" height="396" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1721545610029" />
+    <state width="1493" height="396" key="GridCell.Tab.1.center" timestamp="1721545610029">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="327" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1720942709429" />
-    <state width="1493" height="327" key="GridCell.Tab.1.right" timestamp="1720942709429">
+    <state width="1493" height="396" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1721545610029" />
+    <state width="1493" height="396" key="GridCell.Tab.1.left" timestamp="1721545610029">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="327" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1720942709429" />
-    <state width="1493" height="126" key="GridCell.Tab.2.bottom" timestamp="1720942310183">
+    <state width="1493" height="396" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1721545610029" />
+    <state width="1493" height="396" key="GridCell.Tab.1.right" timestamp="1721545610029">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="126" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1720942310183" />
-    <state width="1493" height="126" key="GridCell.Tab.2.center" timestamp="1720942310183">
+    <state width="1493" height="396" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1721545610029" />
+    <state width="1493" height="396" key="GridCell.Tab.2.bottom" timestamp="1721545610029">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="126" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1720942310183" />
-    <state width="1493" height="126" key="GridCell.Tab.2.left" timestamp="1720942310183">
+    <state width="1493" height="396" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1721545610029" />
+    <state width="1493" height="396" key="GridCell.Tab.2.center" timestamp="1721545610029">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="126" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1720942310183" />
-    <state width="1493" height="126" key="GridCell.Tab.2.right" timestamp="1720942310183">
+    <state width="1493" height="396" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1721545610029" />
+    <state width="1493" height="396" key="GridCell.Tab.2.left" timestamp="1721545610029">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="126" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1720942310183" />
+    <state width="1493" height="396" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1721545610029" />
+    <state width="1493" height="396" key="GridCell.Tab.2.right" timestamp="1721545610029">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="396" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1721545610029" />
     <state x="414" y="119" key="VCS.ChangeListViewerDialog" timestamp="1720923316940">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="414" y="119" key="VCS.ChangeListViewerDialog/0.0.1536.824@0.0.1536.824" timestamp="1720923316940" />
-    <state x="361" y="149" key="Vcs.Push.Dialog.v2" timestamp="1720921997830">
+    <state x="361" y="149" key="Vcs.Push.Dialog.v2" timestamp="1720942987754">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="149" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1720921997830" />
-    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1720920292329">
+    <state x="361" y="149" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1720942987754" />
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1721525475158">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1720920292329" />
-    <state x="390" y="138" width="755" height="548" key="find.popup" timestamp="1720939289346">
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1721525475158" />
+    <state x="323" y="152" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1721527501896">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="390" y="138" width="755" height="548" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1720939289346" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1720942881521">
+    <state x="323" y="152" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1536.824@0.0.1536.824" timestamp="1721527501896" />
+    <state x="390" y="138" width="755" height="548" key="find.popup" timestamp="1721544316865">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1720942881521" />
+    <state x="390" y="138" width="755" height="548" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1721544316865" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1721544508426">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1721544508426" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/com/test/testLog4j2.java</url>
           <line>70</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/web/util/UtilController.java</url>
-          <line>126</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/service/util/UtilServiceImpl.java</url>
-          <line>365</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/service/power/OrigDLServiceImpl.java</url>
-          <line>140</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/web/power/OrigDLController.java</url>
           <line>59</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/service/power/OrigDLServiceImpl.java</url>
           <line>218</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/web/util/UtilController.java</url>
           <line>53</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/service/util/UtilServiceImpl.java</url>
           <line>45</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/service/util/UtilServiceImpl.java</url>
+          <line>366</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/service/util/UtilServiceImpl.java</url>
+          <line>406</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/demo/service/power/OrigRtvServiceImpl.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="maps.get(87)" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
