@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.scheduling.annotation.Async;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -67,4 +68,6 @@ public interface OrigDLDao extends BaseMapper<OrigDL> {
     List<Map> getPowerPredictByDay(Params params);
 
     List<Map> getPowerForPowerPredict(Params params);
+    //保存预测值
+    Integer savePredictPower(@Param("id") Integer id, @Param("PredictZxygZ") BigDecimal PredictZxygZ);
 }

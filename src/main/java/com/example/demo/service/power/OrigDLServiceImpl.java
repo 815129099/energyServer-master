@@ -527,6 +527,9 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
     public String generaPowerPredict(Params params) {
         threadPoolTaskExecutor.execute(() -> {
             Calendar calendar = Calendar.getInstance();
+            calendar.setTime(params.getEndTime());
+            calendar.add(Calendar.DATE,1);
+            params.setEndTime(params.getEndTime());
             List<Map> maps = origDLDao.getPowerForPowerPredict(params);
             List<String> dataList = new ArrayList<>();
             //1、查询数据
@@ -543,7 +546,7 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     Date timeTag = (Date) maps.get(i).get("TimeTag");
                     calendar.setTime(timeTag);
                     //month
-                    int month = calendar.get(Calendar.MONTH);
+                    int month = calendar.get(Calendar.MONTH)+1;
                     //date
                     int date = calendar.get(Calendar.DAY_OF_MONTH);
                     //hour
@@ -556,20 +559,16 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     endNumber = Double.valueOf(maps.get(i+1).get(params.getPowerType()).toString());
                     int totalNumber = (int)((endNumber-beginNumber)*num);
                     //price
-                    BigDecimal price = BigDecimal.ZERO;
+                    int id = (int) maps.get(i).get("id");
 
-                    data = month+","+date+","+hour+","+peakFlatValley+","+totalNumber+","+price;
+                    data = month+","+date+","+hour+","+peakFlatValley+","+totalNumber+","+id;
                     dataList.add(data);
                 }
 
                 //2、构建数据
-                String headDataStr = "month,date,hour,peak_flat_valley,power_num,price";
+                String headDataStr = "month,date,hour,peak_flat_valley,power_num,id";
                 String filePath = "D:\\lunwengit\\LTSF-Linear-main\\lwx\\data\\power_"+System.currentTimeMillis()+".csv";
                 String saveFilePath = "D:\\lunwengit\\LTSF-Linear-main\\lwx\\data\\power_predict_"+System.currentTimeMillis()+".csv";
-
-                dataList.add("5,1,1,1,9568.365,2358.602");
-                dataList.add("5,1,2,1,9742.259,2401.467");
-                dataList.add("5,1,3,1,9617.787,2370.785");
                 CsvUtil.writeToCsv(headDataStr, dataList, filePath, false);
 
                 //3、请求socket
@@ -580,9 +579,22 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                 }
 
                 //4、解析csv文件
-                List<String> list = CsvUtil.readFromCsv(saveFilePath);
-                for (String str:list) {
-                    System.out.println(str);
+                List<Map<String,Object>> list = CsvUtil.readFromCsv(saveFilePath);
+                if (!CollectionUtils.isEmpty(list)) {
+                    //保存预测值
+                    for (Map<String,Object> map:list) {
+                        Integer id = null;
+                        BigDecimal predictZxygZ = null;
+                        try {
+                            id = Integer.valueOf(map.get("id").toString());
+                            predictZxygZ = new BigDecimal(map.get("PredictZxygZ").toString());
+                        } catch (Exception e) {
+                            //
+                        }
+                        if (null != id && null != predictZxygZ) {
+                            origDLDao.savePredictPower(id, predictZxygZ);
+                        }
+                    }
                 }
             }
         });
