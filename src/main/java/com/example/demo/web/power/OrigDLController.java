@@ -120,4 +120,14 @@ public class OrigDLController {
         result.setData(this.origDLService.getExceptionData());
         return result;
     }
+
+    @RequestMapping(value = "/PowerPredict.do",produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result getPowerPredict(@RequestBody Params param) throws ParseException {
+        logger.info(param.toString());
+        Map<String,Object> map = origDLService.getPowerPredict(param);
+        Result result = ResultUtil.success();
+        result.setData(map);
+        return result;
+    }
 }

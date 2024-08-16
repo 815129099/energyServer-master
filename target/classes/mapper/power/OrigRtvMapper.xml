@@ -43,7 +43,7 @@
           SELECT date_format(o.TimeTag,"%c-%e %H:%i") Time,o.Ua Ua,o.Ub Ub,o.Uc Uc,o.Ia Ia,o.Ib Ib,o.Ic Ic,ROUND(e.PT1/e.PT2,0) U,ROUND(e.CT1/e.CT2,0) I,e.MultiplyRatio
           FROM EMeters e,OrigRtv o,Estations s
           where  e.EMeterName = #{EMeterName} and e.EStationID=s.EStationID and s.EStationName=#{EStationName} and e.EMeterID=o.EMeterID and  o.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 24 HOUR)
-          <if test="geNumber != null and geNumber != ''" >
+          <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
               and o.geNumber = #{geNumber}
           </if>
     </select>
@@ -52,7 +52,7 @@
           SELECT date_format(o.TimeTag,"%c-%e %H:%i") Time,o.Ua Ua,o.Ub Ub,o.Uc Uc,o.Ia Ia,o.Ib Ib,o.Ic Ic,ROUND(e.PT1/e.PT2,0) U,ROUND(e.CT1/e.CT2,0) I,e.MultiplyRatio
           FROM EMeters e,OrigRtv o,Estations s
           where  e.EMeterName = #{EMeterName} and e.EStationID=s.EStationID and s.EStationName=#{EStationName} and e.EMeterID=o.EMeterID and  o.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 7 DAY)
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and o.geNumber = #{geNumber}
         </if>
     </select>

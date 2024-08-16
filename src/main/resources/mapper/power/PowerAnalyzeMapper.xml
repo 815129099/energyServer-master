@@ -38,7 +38,7 @@
         <if test="dateType=='day'">
             and p.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 30 DAY)
         </if>
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and p.geNumber = #{geNumber}
         </if>
         order by TimeTag

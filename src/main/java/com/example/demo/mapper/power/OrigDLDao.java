@@ -61,4 +61,8 @@ public interface OrigDLDao extends BaseMapper<OrigDL> {
     List<Map> getPowerTotal(@Param("day") String day);
 
     List<Map> getExceptionData(@Param("day") String day);
+
+    List<Map> getPowerPredictByHour(Params params);
+
+    List<Map> getPowerPredictByDay(Params params);
 }

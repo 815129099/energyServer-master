@@ -13,7 +13,7 @@
         SELECT o.ZxygZ,o.FxygZ,o.ZxwgZ,o.FxwgZ,o.TimeTag,(e.PT1*e.CT1)/(e.CT2*e.PT2) num,date_format(o.TimeTag,"%H:%i") Time,e.MultiplyRatio
         FROM OrigDL o,EMeters e,Estations s
         where e.EMeterName = #{EMeterName} and e.EStationID=s.EStationID and s.EStationName=#{EStationName} and e.EMeterID=o.EMeterID and o.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 24 HOUR)
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and o.geNumber = #{geNumber}
         </if>
     </select>
@@ -24,7 +24,7 @@
         FROM OrigDL o,EMeters e,Estations s
         where e.EMeterName = #{EMeterName} and e.EStationID=s.EStationID and s.EStationName=#{EStationName} and e.EMeterID=o.EMeterID and date_format(o.TimeTag,"%H:%i:%s") = "00:00:00"
                 and  o.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 30 DAY)
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and o.geNumber = #{geNumber}
         </if>
     </select>
@@ -38,7 +38,7 @@
         <foreach collection="hours" item="item" index="index" open="(" close=")" separator=",">
             #{item}
         </foreach>
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and o.geNumber = #{geNumber}
         </if>
     </select>
@@ -102,7 +102,7 @@
         <if test=" EMeterName=='' and  EStationName!=null and EStationName!= ''">
             and s.EStationName=#{EStationName}
         </if>
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and o.geNumber = #{geNumber}
         </if>
         order by o.EMeterID,o.TimeTag
@@ -114,7 +114,7 @@
         where e.EStationID=s.EStationID  and e.EMeterID=o.EMeterID and o.TimeTag between #{beginTime} and #{endTime}
               and e.Online=1 and e.EMeterName!=""
         and s.EStationName=#{EStationName}
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and o.geNumber = #{geNumber}
         </if>
         order by o.EMeterID,o.TimeTag
@@ -124,7 +124,7 @@
         SELECT e.EMeterName,o.* ,(e.PT1*e.CT1)/(e.CT2*e.PT2) num,e.MultiplyRatio
         FROM OrigDL o,EMeters e
         where e.EMeterID=o.EMeterID and o.TimeTag between #{beginTime} and #{endTime} and e.Online=1 and e.EMeterName!=""
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and o.geNumber = #{geNumber}
         </if>
         order by o.EMeterID,o.TimeTag
@@ -183,5 +183,26 @@
         select e.EMeterName,p.PowerTotal
         from poweranalyze p,emeters e
         where p.EMeterID = e.EMeterID and p.TimeTag = #{day} and e.EMeterID not in (1,2)
+    </select>
+
+    <!--按小时获取电量预测值-->
+    <select id="getPowerPredictByHour" parameterType="com.example.demo.entity.Params" resultType="java.util.LinkedHashMap">
+        SELECT o.ZxygZ,o.FxygZ,o.ZxwgZ,o.FxwgZ,o.TimeTag,(e.PT1*e.CT1)/(e.CT2*e.PT2) num,date_format(o.TimeTag,"%H:%i") Time,e.MultiplyRatio,o.PredictZxygZ
+        FROM OrigDL o,EMeters e,Estations s
+        where e.EMeterName = #{EMeterName} and e.EStationID=s.EStationID and s.EStationName=#{EStationName} and e.EMeterID=o.EMeterID and o.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 24 HOUR)
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
+            and o.geNumber = #{geNumber}
+        </if>
+    </select>
+
+    <!--按天获取电量预测值-->
+    <select id="getPowerPredictByDay" parameterType="com.example.demo.entity.Params" resultType="java.util.LinkedHashMap">
+        SELECT o.ZxygZ,o.FxygZ,o.ZxwgZ,o.FxwgZ,o.TimeTag,(e.PT1*e.CT1)/(e.CT2*e.PT2) num,date_format(o.TimeTag,"%c-%d") Time,e.MultiplyRatio,o.PredictZxygZ
+        FROM OrigDL o,EMeters e,Estations s
+        where e.EMeterName = #{EMeterName} and e.EStationID=s.EStationID and s.EStationName=#{EStationName} and e.EMeterID=o.EMeterID and date_format(o.TimeTag,"%H:%i:%s") = "00:00:00"
+        and  o.TimeTag BETWEEN #{beginTime} and DATE_ADD(#{beginTime}, INTERVAL 30 DAY)
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
+            and o.geNumber = #{geNumber}
+        </if>
     </select>
 </mapper>

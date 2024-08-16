@@ -9,7 +9,7 @@
         left JOIN EMeters m
         on m.EStationID = e.EStationID
         where e.FactoryName!="未确定" and m.Online=1 and m.EMeterName!=""
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and e.geNumber = #{geNumber} and m.geNumber = #{geNumber}
         </if>
     </select>
@@ -93,7 +93,7 @@
         <if test="eMeterID != null" >
             and e.EMeterID = #{eMeterID}
         </if>
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and o.geNumber = #{geNumber}
         </if>
         and o.TimeTag BETWEEN DATE_SUB(#{maxDate}, INTERVAL 7 DAY) and #{maxDate}

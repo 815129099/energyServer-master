@@ -35,4 +35,6 @@ public interface OrigDLService extends IService<OrigDL> {
 
     List<List<Object>> getExceptionData();
 
+    Map getPowerPredict(Params params);
+
 }

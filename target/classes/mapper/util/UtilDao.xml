@@ -9,7 +9,7 @@
         left JOIN EMeters m
         on m.EStationID = e.EStationID
         where e.FactoryName!="未确定" and m.Online=1 and m.EMeterName!=""
-        <if test="geNumber != null and geNumber != ''" >
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and e.geNumber = #{geNumber} and m.geNumber = #{geNumber}
         </if>
     </select>
@@ -86,12 +86,17 @@
 
     <!--查看最近7天的总电量-->
     <select id="getTotalPower" resultType="java.util.Map">
-        SELECT e.EMeterID,o.ZxygZ,o.FxygZ,o.ZxwgZ,o.FxwgZ,o.TimeTag,(e.PT1*e.CT1)/(e.CT2*e.PT2) num,date_format(o.TimeTag,"%c-%d") Time,e.MultiplyRatio
+        SELECT e.EMeterID,o.ZxygZ,o.FxygZ,o.ZxwgZ,o.FxwgZ,o.TimeTag,(e.PT1*e.CT1)/(e.CT2*e.PT2) num,date_format(o.TimeTag,"%Y-%m-%d") Time,e.MultiplyRatio
         FROM OrigDL o,EMeters e
-        where e.EMeterID in (1,2) and o.EMeterID=e.EMeterID and  o.TimeTag BETWEEN DATE_SUB(CURDATE(), INTERVAL 7 DAY) and CURDATE()
-        <if test="geNumber != null and geNumber != ''" >
+        where
+        o.EMeterID=e.EMeterID
+        <if test="eMeterID != null" >
+            and e.EMeterID = #{eMeterID}
+        </if>
+        <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
             and o.geNumber = #{geNumber}
         </if>
+        and o.TimeTag BETWEEN DATE_SUB(#{maxDate}, INTERVAL 7 DAY) and #{maxDate}
         order by TimeTag,EMeterID
     </select>
 
@@ -104,5 +109,9 @@
             #{item}
         </foreach>
         order by ErtuID
+    </select>
+
+    <select id="getMaxTime" resultType="java.util.Date">
+        select MAX(TimeTag) from OrigDL where EMeterID = #{eMeterID} and geNumber = #{geNumber}
     </select>
 </mapper>

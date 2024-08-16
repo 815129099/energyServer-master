@@ -421,4 +421,98 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
         }
         return null;
     }
+
+    //获取电量预测
+    @Override
+    public Map getPowerPredict(Params params) {
+        PageInfo<Map> page = null;
+        PageHelper.startPage(Integer.parseInt(params.getPageNum()), Integer.parseInt(params.getPageSize()));
+        Map<String,Object> map = new HashMap<>();
+        //获取数据库的map
+        List<Map> maps = null;
+        //图表数据
+        List<Map> chartList = new ArrayList<Map>();
+        List<LinkedHashMap> newMaps = new ArrayList<LinkedHashMap>();
+        if(params.getDateType().equals("hour")){
+            maps = origDLDao.getPowerPredictByHour(params);
+            if (!CollectionUtils.isEmpty(maps)) {
+                int MultiplyRatio = Integer.parseInt(maps.get(0).get("MultiplyRatio").toString());
+                Double num;
+                if(MultiplyRatio==1){
+                    num = Double.valueOf(maps.get(0).get("num").toString());
+                }else {
+                    num = 1.0;
+                }
+                for(int i=0;i<maps.size()-1;i++){
+                    //用于数据显示
+                    LinkedHashMap map1 = new LinkedHashMap();
+                    String Time = maps.get(i).get("Time").toString();
+                    map1.put("Time", Time);
+
+                    map1.put("num",num);
+                    map1.put("beginTime",DateUtil.DateToString((Date) maps.get(i).get("TimeTag")));
+                    map1.put("endTime",DateUtil.DateToString((Date)maps.get(i+1).get("TimeTag")));
+                    Double beginNumber = 0.0,endNumber = 0.0;
+                    beginNumber = Double.valueOf(maps.get(i).get(params.getPowerType()).toString());
+                    endNumber = Double.valueOf(maps.get(i+1).get(params.getPowerType()).toString());
+
+                    map1.put("beginNumber",beginNumber);
+                    map1.put("endNumber",endNumber);
+                    int totalNumber = (int)((endNumber-beginNumber)*num);
+                    map1.put("totalNumber",totalNumber);
+                    Double predictTotalNumber = Double.valueOf(maps.get(i+1).get("PredictZxygZ").toString());
+                    map1.put("predictTotalNumber",predictTotalNumber);
+                    newMaps.add(i,map1);
+                    //用于图表显示
+                    Map<String ,Object> map2 = new LinkedHashMap<>();
+                    map2.put("name",Time);
+                    map2.put("value",totalNumber);
+                    map2.put("predictTotalNumber",predictTotalNumber);
+                    chartList.add(i,map2);
+                }
+            }
+        }else if(params.getDateType().equals("day")){
+            maps = origDLDao.getPowerPredictByDay(params);
+            if (!CollectionUtils.isEmpty(maps)) {
+                for(int i=0;i<maps.size()-1;i++){
+                    //用于数据显示
+                    LinkedHashMap map1 = new LinkedHashMap();
+                    String Time = maps.get(i).get("Time").toString();
+                    map1.put("Time", Time);
+                    int MultiplyRatio = Integer.parseInt(maps.get(i).get("MultiplyRatio").toString());
+                    Double num;
+                    if(MultiplyRatio==1){
+                        num = Double.valueOf(maps.get(i).get("num").toString());
+                    }else {
+                        num = 1.0;
+                    }
+                    map1.put("num",num);
+                    map1.put("beginTime",DateUtil.DateToString((Date) maps.get(i).get("TimeTag")));
+                    map1.put("endTime",DateUtil.DateToString((Date)maps.get(i+1).get("TimeTag")));
+                    Double beginNumber = 0.0,endNumber = 0.0;
+                    beginNumber = Double.valueOf(maps.get(i).get(params.getPowerType()).toString());
+                    endNumber = Double.valueOf(maps.get(i+1).get(params.getPowerType()).toString());
+                    map1.put("beginNumber",beginNumber);
+                    map1.put("endNumber",endNumber);
+                    int totalNumber = (int)((endNumber-beginNumber)*num);
+                    map1.put("totalNumber",totalNumber);
+                    Double predictTotalNumber = Double.valueOf(maps.get(i+1).get("PredictZxygZ").toString());
+                    map1.put("predictTotalNumber",predictTotalNumber);
+                    newMaps.add(i,map1);
+                    //用于图表显示
+                    Map<String ,Object> map2 = new LinkedHashMap<>();
+                    map2.put("name",Time);
+                    map2.put("value",totalNumber);
+                    map2.put("value1",totalNumber);
+                    map2.put("predictTotalNumber",predictTotalNumber);
+                    chartList.add(i,map2);
+                }
+            }
+        }
+
+        page = new PageInfo(newMaps);
+        map.put("page",page);
+        map.put("chartList",chartList);
+        return map;
+    }
 }
