@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Params {
     private String parameter;
@@ -19,6 +20,16 @@ public class Params {
     private int EMeterID;
     //登录用户
     private String geNumber;
+
+    private List<Message> messageList;
+
+    public List<Message> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
+    }
 
     public String getGeNumber() {
         return geNumber;

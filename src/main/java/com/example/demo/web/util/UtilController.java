@@ -133,4 +133,26 @@ public class UtilController {
         return result;
     }
 
+    @RequestMapping(value = "/listMessage.do",produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result listMessage(@RequestBody Params param) {
+        if (StringUtils.isEmpty(param.getGeNumber())) {
+            param.setGeNumber("admin");
+        }
+        List list = this.utilService.listMessage(param);
+        Result result = ResultUtil.success();
+        result.setData(list);
+        return result;
+    }
+
+    @RequestMapping(value = "/updateMessage.do",produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result updateMessage(@RequestBody Params param) {
+        if (StringUtils.isEmpty(param.getGeNumber())) {
+            param.setGeNumber("admin");
+        }
+        this.utilService.updateMessage(param);
+        Result result = ResultUtil.success();
+        return result;
+    }
 }

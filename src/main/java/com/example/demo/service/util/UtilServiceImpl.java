@@ -1,9 +1,11 @@
 package com.example.demo.service.util;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.entity.Message;
 import com.example.demo.entity.Params;
 import com.example.demo.entity.Record;
 import com.example.demo.entity.TreeNode;
+import com.example.demo.mapper.util.MessageDao;
 import com.example.demo.mapper.util.UtilDao;
 import com.example.demo.util.date.DateUtil;
 import com.example.demo.util.jna.tcp.Client;
@@ -34,6 +36,8 @@ public class UtilServiceImpl implements UtilService {
 //    private RedisTemplate redisTemplate;
     @Autowired
     private Client client;
+    @Autowired
+    private MessageDao messageDao;
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -451,5 +455,19 @@ public class UtilServiceImpl implements UtilService {
     @Override
     public int getTotalUserNumber() {
         return this.utilDao.getTotalUserNumber();
+    }
+
+    @Override
+    public List listMessage(Params param) {
+        return messageDao.list(param.getGeNumber());
+    }
+
+    @Override
+    public void updateMessage(Params param) {
+        if (!CollectionUtils.isEmpty(param.getMessageList())) {
+            for (Message m:param.getMessageList()) {
+                messageDao.updateMessage(m.getId(), m.getDataStatus());
+            }
+        }
     }
 }

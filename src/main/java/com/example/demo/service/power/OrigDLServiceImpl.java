@@ -5,6 +5,7 @@ import com.example.demo.entity.OrigDL;
 import com.example.demo.entity.Params;
 import com.example.demo.mapper.power.OrigDLDao;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.example.demo.mapper.util.MessageDao;
 import com.example.demo.util.date.DateUtil;
 import com.example.demo.util.python.CsvUtil;
 import com.example.demo.util.python.SocketUtil;
@@ -39,7 +40,8 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
     private OrigDLDao origDLDao;
     @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
-
+    @Autowired
+    private MessageDao messageDao;
 
     //获取电量数据
     @Override
@@ -596,6 +598,10 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                         }
                     }
                 }
+
+                //5、保存消息
+                String message = "厂站："+params.getEStationName()+"，电表："+params.getEMeterName()+"，日期："+DateUtil.DateToString(params.getEndTime(),"yyyy-MM-dd")+"，电量已预测完毕！";
+                messageDao.saveMessage(message, 0, params.getGeNumber());
             }
         });
         return "电量预测中...";

@@ -36,5 +36,10 @@ public interface UtilService  {
 
     Map getTotalPower(Params param);
 
+    List listMessage(Params param);
+
+    void updateMessage(Params param);
+
+
 
 }

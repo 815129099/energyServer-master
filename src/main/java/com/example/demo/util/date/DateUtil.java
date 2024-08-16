@@ -126,6 +126,11 @@ public class DateUtil {
         return ft.format(date);
     }
 
+    public static String DateToString(Date date, String pattern){
+        SimpleDateFormat ft = new SimpleDateFormat (pattern);
+        return ft.format(date);
+    }
+
     public static String DateToStringByPattern(Date date,String pattern){
         SimpleDateFormat ft = new SimpleDateFormat (pattern);
         return ft.format(date);
