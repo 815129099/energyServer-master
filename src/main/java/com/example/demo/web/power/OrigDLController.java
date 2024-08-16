@@ -121,13 +121,23 @@ public class OrigDLController {
         return result;
     }
 
-    @RequestMapping(value = "/PowerPredict.do",produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
+    @RequestMapping(value = "/powerPredict.do",produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
     @ResponseBody
     public Result getPowerPredict(@RequestBody Params param) throws ParseException {
         logger.info(param.toString());
         Map<String,Object> map = origDLService.getPowerPredict(param);
         Result result = ResultUtil.success();
         result.setData(map);
+        return result;
+    }
+
+    @RequestMapping(value = "/generaPowerPredict.do",produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result generaPowerPredict(@RequestBody Params param) throws ParseException {
+        logger.info(param.toString());
+        String msg = origDLService.generaPowerPredict(param);
+        Result result = ResultUtil.success();
+        result.setData(msg);
         return result;
     }
 }

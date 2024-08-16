@@ -65,4 +65,6 @@ public interface OrigDLDao extends BaseMapper<OrigDL> {
     List<Map> getPowerPredictByHour(Params params);
 
     List<Map> getPowerPredictByDay(Params params);
+
+    List<Map> getPowerForPowerPredict(Params params);
 }

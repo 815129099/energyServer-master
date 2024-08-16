@@ -6,17 +6,22 @@ import com.example.demo.entity.Params;
 import com.example.demo.mapper.power.OrigDLDao;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.example.demo.util.date.DateUtil;
+import com.example.demo.util.python.CsvUtil;
+import com.example.demo.util.python.SocketUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +37,8 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
 
     @Autowired
     private OrigDLDao origDLDao;
+    @Autowired
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
 
     //获取电量数据
@@ -460,7 +467,7 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     map1.put("endNumber",endNumber);
                     int totalNumber = (int)((endNumber-beginNumber)*num);
                     map1.put("totalNumber",totalNumber);
-                    Double predictTotalNumber = Double.valueOf(maps.get(i+1).get("PredictZxygZ").toString());
+                    Double predictTotalNumber = Double.valueOf(maps.get(i).get("PredictZxygZ").toString());
                     map1.put("predictTotalNumber",predictTotalNumber);
                     newMaps.add(i,map1);
                     //用于图表显示
@@ -496,7 +503,7 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     map1.put("endNumber",endNumber);
                     int totalNumber = (int)((endNumber-beginNumber)*num);
                     map1.put("totalNumber",totalNumber);
-                    Double predictTotalNumber = Double.valueOf(maps.get(i+1).get("PredictZxygZ").toString());
+                    Double predictTotalNumber = Double.valueOf(maps.get(i).get("PredictZxygZ").toString());
                     map1.put("predictTotalNumber",predictTotalNumber);
                     newMaps.add(i,map1);
                     //用于图表显示
@@ -514,5 +521,71 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
         map.put("page",page);
         map.put("chartList",chartList);
         return map;
+    }
+
+    @Override
+    public String generaPowerPredict(Params params) {
+        threadPoolTaskExecutor.execute(() -> {
+            Calendar calendar = Calendar.getInstance();
+            List<Map> maps = origDLDao.getPowerForPowerPredict(params);
+            List<String> dataList = new ArrayList<>();
+            //1、查询数据
+            if (!CollectionUtils.isEmpty(maps)) {
+                int MultiplyRatio = Integer.parseInt(maps.get(0).get("MultiplyRatio").toString());
+                Double num;
+                if(MultiplyRatio==1){
+                    num = Double.valueOf(maps.get(0).get("num").toString());
+                }else {
+                    num = 1.0;
+                }
+                for(int i=0;i<maps.size()-1;i++){
+                    String data = "";
+                    Date timeTag = (Date) maps.get(i).get("TimeTag");
+                    calendar.setTime(timeTag);
+                    //month
+                    int month = calendar.get(Calendar.MONTH);
+                    //date
+                    int date = calendar.get(Calendar.DAY_OF_MONTH);
+                    //hour
+                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                    //peak_flat_valley
+                    Integer peakFlatValley = DateUtil.getPeakFlatValley(hour);
+                    //power_num
+                    Double beginNumber = 0.0,endNumber = 0.0;
+                    beginNumber = Double.valueOf(maps.get(i).get(params.getPowerType()).toString());
+                    endNumber = Double.valueOf(maps.get(i+1).get(params.getPowerType()).toString());
+                    int totalNumber = (int)((endNumber-beginNumber)*num);
+                    //price
+                    BigDecimal price = BigDecimal.ZERO;
+
+                    data = month+","+date+","+hour+","+peakFlatValley+","+totalNumber+","+price;
+                    dataList.add(data);
+                }
+
+                //2、构建数据
+                String headDataStr = "month,date,hour,peak_flat_valley,power_num,price";
+                String filePath = "D:\\lunwengit\\LTSF-Linear-main\\lwx\\data\\power_"+System.currentTimeMillis()+".csv";
+                String saveFilePath = "D:\\lunwengit\\LTSF-Linear-main\\lwx\\data\\power_predict_"+System.currentTimeMillis()+".csv";
+
+                dataList.add("5,1,1,1,9568.365,2358.602");
+                dataList.add("5,1,2,1,9742.259,2401.467");
+                dataList.add("5,1,3,1,9617.787,2370.785");
+                CsvUtil.writeToCsv(headDataStr, dataList, filePath, false);
+
+                //3、请求socket
+                try {
+                    SocketUtil.testSocket(1,filePath,saveFilePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //4、解析csv文件
+                List<String> list = CsvUtil.readFromCsv(saveFilePath);
+                for (String str:list) {
+                    System.out.println(str);
+                }
+            }
+        });
+        return "电量预测中...";
     }
 }

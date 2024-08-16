@@ -352,4 +352,20 @@ public class DateUtil {
         System.out.println(getNowByDay());
 
     }
+
+    /**
+     * 获取峰平谷
+     * @param hour
+     * @return
+     */
+    public static Integer getPeakFlatValley(Integer hour) {
+        if (Arrays.asList(0,1,2,3,4,5,6,7).contains(hour)) {
+            return 0;
+        } else if (Arrays.asList(8,9,10,11,12,13,17,18,22,23).contains(hour)) {
+            return 1;
+        } else if (Arrays.asList(14,15,16,19,20,21).contains(hour)) {
+            return 2;
+        }
+        return 0;
+    }
 }

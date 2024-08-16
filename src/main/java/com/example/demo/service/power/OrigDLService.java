@@ -37,4 +37,6 @@ public interface OrigDLService extends IService<OrigDL> {
 
     Map getPowerPredict(Params params);
 
+    String generaPowerPredict(Params params);
+
 }
