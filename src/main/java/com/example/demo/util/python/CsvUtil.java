@@ -132,7 +132,7 @@ public class CsvUtil {
                     Map<String,Object> map = new HashMap<>();
                     String[] split = line.split(",");
                     map.put("id",split[0]);
-                    map.put("price",split[1]);
+                    map.put("price",split[2]);
                     //数据不为空则加入列表
                     dataList.add(map);
                 }

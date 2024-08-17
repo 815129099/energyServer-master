@@ -140,4 +140,14 @@ public class OrigDLController {
         result.setData(msg);
         return result;
     }
+
+    @RequestMapping(value = "/generaPowerPrice.do",produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result generaPowerPrice(@RequestBody Params param) throws ParseException {
+        logger.info(param.toString());
+        String msg = origDLService.generaPowerPrice(param);
+        Result result = ResultUtil.success();
+        result.setData(msg);
+        return result;
+    }
 }

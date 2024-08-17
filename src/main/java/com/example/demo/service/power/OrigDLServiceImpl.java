@@ -471,12 +471,15 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     map1.put("totalNumber",totalNumber);
                     Double predictTotalNumber = Double.valueOf(maps.get(i).get("PredictZxygZ").toString());
                     map1.put("predictTotalNumber",predictTotalNumber);
+                    Double price = Double.valueOf(maps.get(i).get("price").toString());
+                    map1.put("price",price);
                     newMaps.add(i,map1);
                     //用于图表显示
                     Map<String ,Object> map2 = new LinkedHashMap<>();
                     map2.put("name",Time);
                     map2.put("value",totalNumber);
                     map2.put("predictTotalNumber",predictTotalNumber);
+                    map2.put("price",price);
                     chartList.add(i,map2);
                 }
             }
@@ -507,6 +510,8 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     map1.put("totalNumber",totalNumber);
                     Double predictTotalNumber = Double.valueOf(maps.get(i).get("PredictZxygZ").toString());
                     map1.put("predictTotalNumber",predictTotalNumber);
+                    Double price = Double.valueOf(maps.get(i).get("price").toString());
+                    map1.put("price",price);
                     newMaps.add(i,map1);
                     //用于图表显示
                     Map<String ,Object> map2 = new LinkedHashMap<>();
@@ -514,6 +519,7 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     map2.put("value",totalNumber);
                     map2.put("value1",totalNumber);
                     map2.put("predictTotalNumber",predictTotalNumber);
+                    map2.put("price",price);
                     chartList.add(i,map2);
                 }
             }
@@ -623,7 +629,7 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
             List<String> dataList = new ArrayList<>();
             //1、查询数据
             if (!CollectionUtils.isEmpty(maps)) {
-                for(int i=0;i<maps.size()-1;i++){
+                for(int i=0;i<maps.size();i++){
                     //预测电量
                     BigDecimal predictZxygZ = new BigDecimal(maps.get(i).get(params.getPowerType()).toString());
                     //id
