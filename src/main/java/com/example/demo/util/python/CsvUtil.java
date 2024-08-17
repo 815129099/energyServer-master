@@ -104,6 +104,55 @@ public class CsvUtil {
         return dataList;
     }
 
+    /**
+     * 根据文件路径读取csv文件的内容
+     *
+     * @param filePath
+     * @return
+     */
+    public static List<Map<String,Object>> readPriceFromCsv(String filePath) {
+        List<Map<String,Object>> dataList = new ArrayList();
+        BufferedReader buffReader = null;
+        try {
+            //构建文件对象
+            File csvFile = new File(filePath);
+            //判断文件是否存在
+            if (!csvFile.exists()) {
+                System.out.println("文件不存在");
+                return dataList;
+            }
+            //构建字符输入流
+            FileReader fileReader = new FileReader(csvFile);
+            //构建缓存字符输入流
+            buffReader = new BufferedReader(fileReader);
+            String line = "";
+            //根据合适的换行符来读取一行数据,赋值给line
+            while ((line = buffReader.readLine()) != null) {
+                if (StringUtils.isNotBlank(line)) {
+                    Map<String,Object> map = new HashMap<>();
+                    String[] split = line.split(",");
+                    map.put("id",split[0]);
+                    map.put("price",split[1]);
+                    //数据不为空则加入列表
+                    dataList.add(map);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("读取csv文件发生异常");
+            e.printStackTrace();
+        } finally {
+            try {
+                //关闭流
+                if (buffReader != null) {
+                    buffReader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return dataList;
+    }
+
     public static void testWriteToCsv() {
         String headDataStr = "month,date,hour,peak_flat_valley,power_num,price";
         String csvfile = "D:\\lunwengit\\LTSF-Linear-main\\lwx\\data\\power_predict_2024-08-15.csv";

@@ -334,6 +334,23 @@ public class DateUtil {
         return list;
     }
 
+    /**
+     * 判断是否是同一天
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public static boolean isSameDay(Date date1, Date date2) {
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(date1);
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(date2);
+
+        return calendar1.get(Calendar.YEAR)==calendar2.get(Calendar.YEAR)
+                && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
+                && calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
+    }
     public static void main(String[] args) throws ParseException {
         /*
         List<String> list= getWeekDay();

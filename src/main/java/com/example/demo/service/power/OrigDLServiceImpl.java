@@ -531,11 +531,15 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(params.getEndTime());
             calendar.add(Calendar.DATE,1);
-            params.setEndTime(params.getEndTime());
+            Date predictDate = calendar.getTime();
+            //多查一天数据
+            calendar.add(Calendar.DATE,1);
+            params.setEndTime(calendar.getTime());
             List<Map> maps = origDLDao.getPowerForPowerPredict(params);
             List<String> dataList = new ArrayList<>();
             //1、查询数据
             if (!CollectionUtils.isEmpty(maps)) {
+                List<Integer> saveIdSet = new ArrayList<>();
                 int MultiplyRatio = Integer.parseInt(maps.get(0).get("MultiplyRatio").toString());
                 Double num;
                 if(MultiplyRatio==1){
@@ -563,6 +567,9 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     //price
                     int id = (int) maps.get(i).get("id");
 
+                    if (DateUtil.isSameDay(timeTag, predictDate)) {
+                        saveIdSet.add(id);
+                    }
                     data = month+","+date+","+hour+","+peakFlatValley+","+totalNumber+","+id;
                     dataList.add(data);
                 }
@@ -593,7 +600,8 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                         } catch (Exception e) {
                             //
                         }
-                        if (null != id && null != predictZxygZ) {
+                        if (null != id && null != predictZxygZ && saveIdSet.contains(id)) {
+                            //仅保存需要的id
                             origDLDao.savePredictPower(id, predictZxygZ);
                         }
                     }
@@ -604,6 +612,63 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                 messageDao.saveMessage(message, 0, params.getGeNumber());
             }
         });
-        return "电量预测中...";
+        return "电量预测中，完成后将下发消息通知";
+    }
+
+    @Override
+    public String generaPowerPrice(Params params) {
+        threadPoolTaskExecutor.execute(() -> {
+            params.setEndTime(params.getBeginTime());
+            List<Map> maps = origDLDao.getPowerForPowerPredict(params);
+            List<String> dataList = new ArrayList<>();
+            //1、查询数据
+            if (!CollectionUtils.isEmpty(maps)) {
+                for(int i=0;i<maps.size()-1;i++){
+                    //预测电量
+                    BigDecimal predictZxygZ = new BigDecimal(maps.get(i).get(params.getPowerType()).toString());
+                    //id
+                    int id = (int) maps.get(i).get("id");
+                    String data = id+","+predictZxygZ;
+                    dataList.add(data);
+                }
+
+                //2、构建数据
+                String headDataStr = "id,pred";
+                String filePath = "D:\\lunwengit\\LTSF-Linear-main\\lwx\\data\\price_"+System.currentTimeMillis()+".csv";
+                String saveFilePath = "D:\\lunwengit\\LTSF-Linear-main\\lwx\\data\\price_predict_"+System.currentTimeMillis()+".csv";
+                CsvUtil.writeToCsv(headDataStr, dataList, filePath, false);
+
+                //3、请求socket
+                try {
+                    SocketUtil.testSocket(2,filePath,saveFilePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //4、解析csv文件
+                List<Map<String,Object>> list = CsvUtil.readPriceFromCsv(saveFilePath);
+                if (!CollectionUtils.isEmpty(list)) {
+                    //保存预测值
+                    for (Map<String,Object> map:list) {
+                        Integer id = null;
+                        BigDecimal price = null;
+                        try {
+                            id = Integer.valueOf(map.get("id").toString());
+                            price = new BigDecimal(map.get("price").toString());
+                        } catch (Exception e) {
+                            //
+                        }
+                        if (null != id && null != price) {
+                            origDLDao.savePredictPrice(id, price);
+                        }
+                    }
+                }
+
+                //5、保存消息
+                String message = "厂站："+params.getEStationName()+"，电表："+params.getEMeterName()+"，日期："+DateUtil.DateToString(params.getEndTime(),"yyyy-MM-dd")+"，电力定价完毕！";
+                messageDao.saveMessage(message, 0, params.getGeNumber());
+            }
+        });
+        return "电力定价中，完成后将下发消息通知";
     }
 }

@@ -223,4 +223,10 @@
         SET PredictZxygZ = #{PredictZxygZ}
         WHERE id = #{id}
     </update>
+
+    <update id="savePredictPrice">
+        UPDATE OrigDL
+        SET price = #{price}
+        WHERE id = #{id}
+    </update>
 </mapper>
