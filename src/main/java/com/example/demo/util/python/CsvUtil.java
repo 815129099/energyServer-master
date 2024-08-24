@@ -133,6 +133,7 @@ public class CsvUtil {
                     String[] split = line.split(",");
                     map.put("id",split[0]);
                     map.put("price",split[2]);
+                    map.put("predictPrice",split[3]);
                     //数据不为空则加入列表
                     dataList.add(map);
                 }

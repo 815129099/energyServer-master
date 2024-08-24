@@ -473,13 +473,15 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     map1.put("predictTotalNumber",predictTotalNumber);
                     Double price = Double.valueOf(maps.get(i).get("price").toString());
                     map1.put("price",price);
+                    Double predictPrice = Double.valueOf(maps.get(i).get("PredictPrice").toString());
+                    map1.put("predictPrice",predictPrice);
                     newMaps.add(i,map1);
                     //用于图表显示
                     Map<String ,Object> map2 = new LinkedHashMap<>();
                     map2.put("name",Time);
                     map2.put("value",totalNumber);
                     map2.put("predictTotalNumber",predictTotalNumber);
-                    map2.put("price",price);
+                    map2.put("predictPrice",predictPrice);
                     chartList.add(i,map2);
                 }
             }
@@ -512,6 +514,8 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     map1.put("predictTotalNumber",predictTotalNumber);
                     Double price = Double.valueOf(maps.get(i).get("price").toString());
                     map1.put("price",price);
+                    Double predictPrice = Double.valueOf(maps.get(i).get("predictPrice").toString());
+                    map1.put("predictPrice",predictPrice);
                     newMaps.add(i,map1);
                     //用于图表显示
                     Map<String ,Object> map2 = new LinkedHashMap<>();
@@ -520,6 +524,7 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     map2.put("value1",totalNumber);
                     map2.put("predictTotalNumber",predictTotalNumber);
                     map2.put("price",price);
+                    map2.put("predictPrice",predictPrice);
                     chartList.add(i,map2);
                 }
             }
@@ -627,6 +632,7 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
             params.setEndTime(params.getBeginTime());
             List<Map> maps = origDLDao.getPowerForPowerPredict(params);
             List<String> dataList = new ArrayList<>();
+            Calendar calendar = Calendar.getInstance();
             //1、查询数据
             if (!CollectionUtils.isEmpty(maps)) {
                 for(int i=0;i<maps.size();i++){
@@ -634,12 +640,23 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     BigDecimal predictZxygZ = new BigDecimal(maps.get(i).get(params.getPowerType()).toString());
                     //id
                     int id = (int) maps.get(i).get("id");
-                    String data = id+","+predictZxygZ;
+                    Date timeTag = (Date) maps.get(i).get("TimeTag");
+                    calendar.setTime(timeTag);
+                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                    BigDecimal price = BigDecimal.ZERO;
+                    if (params.getFlatValue().contains(hour)) {
+                        price = params.getFlatPrice();
+                    } else if (params.getValleyValue().contains(hour)) {
+                        price = params.getValleyPrice();
+                    } else if (params.getPeakValue().contains(hour)) {
+                        price = params.getPeakPrice();
+                    }
+                    String data = id+","+predictZxygZ+","+price;
                     dataList.add(data);
                 }
 
                 //2、构建数据
-                String headDataStr = "id,pred";
+                String headDataStr = "id,pred,price";
                 String filePath = "D:\\lunwengit\\LTSF-Linear-main\\lwx\\data\\price_"+System.currentTimeMillis()+".csv";
                 String saveFilePath = "D:\\lunwengit\\LTSF-Linear-main\\lwx\\data\\price_predict_"+System.currentTimeMillis()+".csv";
                 CsvUtil.writeToCsv(headDataStr, dataList, filePath, false);
@@ -658,14 +675,16 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     for (Map<String,Object> map:list) {
                         Integer id = null;
                         BigDecimal price = null;
+                        BigDecimal predictPrice = null;
                         try {
                             id = Integer.valueOf(map.get("id").toString());
                             price = new BigDecimal(map.get("price").toString());
+                            predictPrice = new BigDecimal(map.get("predictPrice").toString());
                         } catch (Exception e) {
                             //
                         }
                         if (null != id && null != price) {
-                            origDLDao.savePredictPrice(id, price);
+                            origDLDao.savePredictPrice(id, price,predictPrice);
                         }
                     }
                 }
@@ -676,5 +695,113 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
             }
         });
         return "电力定价中，完成后将下发消息通知";
+    }
+
+    //获取电量预测
+    @Override
+    public Map getPricePredict(Params params) {
+        PageInfo<Map> page = null;
+        PageHelper.startPage(Integer.parseInt(params.getPageNum()), Integer.parseInt(params.getPageSize()));
+        Map<String,Object> map = new HashMap<>();
+        //获取数据库的map
+        List<Map> maps = null;
+        //图表数据
+        List<Map> chartList = new ArrayList<Map>();
+        List<LinkedHashMap> newMaps = new ArrayList<LinkedHashMap>();
+        if(params.getDateType().equals("hour")){
+            maps = origDLDao.getPowerPredictByHour(params);
+            if (!CollectionUtils.isEmpty(maps)) {
+                int MultiplyRatio = Integer.parseInt(maps.get(0).get("MultiplyRatio").toString());
+                Double num;
+                if(MultiplyRatio==1){
+                    num = Double.valueOf(maps.get(0).get("num").toString());
+                }else {
+                    num = 1.0;
+                }
+                for(int i=0;i<maps.size()-1;i++){
+                    //用于数据显示
+                    LinkedHashMap map1 = new LinkedHashMap();
+                    String Time = maps.get(i).get("Time").toString();
+                    map1.put("Time", Time);
+
+                    map1.put("num",num);
+                    map1.put("beginTime",DateUtil.DateToString((Date) maps.get(i).get("TimeTag")));
+                    map1.put("endTime",DateUtil.DateToString((Date)maps.get(i+1).get("TimeTag")));
+                    Double beginNumber = 0.0,endNumber = 0.0;
+                    beginNumber = Double.valueOf(maps.get(i).get(params.getPowerType()).toString());
+                    endNumber = Double.valueOf(maps.get(i+1).get(params.getPowerType()).toString());
+
+                    map1.put("beginNumber",beginNumber);
+                    map1.put("endNumber",endNumber);
+                    int totalNumber = (int)((endNumber-beginNumber)*num);
+                    map1.put("totalNumber",totalNumber);
+                    Double predictTotalNumber = Double.valueOf(maps.get(i).get("PredictZxygZ").toString());
+                    map1.put("predictTotalNumber",predictTotalNumber);
+                    Double price = Double.valueOf(maps.get(i).get("price").toString());
+                    map1.put("price",price);
+                    Double predictPrice = Double.valueOf(maps.get(i).get("PredictPrice").toString());
+                    map1.put("predictPrice",predictPrice);
+                    map1.put("predictProfit",(predictPrice-price)*predictTotalNumber);
+                    newMaps.add(i,map1);
+                    //用于图表显示
+                    Map<String ,Object> map2 = new LinkedHashMap<>();
+                    map2.put("name",Time);
+                    map2.put("value",totalNumber);
+                    map2.put("predictTotalNumber",predictTotalNumber);
+                    map2.put("price",price);
+                    map2.put("predictPrice",predictPrice);
+                    chartList.add(i,map2);
+                }
+            }
+        }else if(params.getDateType().equals("day")){
+            maps = origDLDao.getPowerPredictByDay(params);
+            if (!CollectionUtils.isEmpty(maps)) {
+                for(int i=0;i<maps.size()-1;i++){
+                    //用于数据显示
+                    LinkedHashMap map1 = new LinkedHashMap();
+                    String Time = maps.get(i).get("Time").toString();
+                    map1.put("Time", Time);
+                    int MultiplyRatio = Integer.parseInt(maps.get(i).get("MultiplyRatio").toString());
+                    Double num;
+                    if(MultiplyRatio==1){
+                        num = Double.valueOf(maps.get(i).get("num").toString());
+                    }else {
+                        num = 1.0;
+                    }
+                    map1.put("num",num);
+                    map1.put("beginTime",DateUtil.DateToString((Date) maps.get(i).get("TimeTag")));
+                    map1.put("endTime",DateUtil.DateToString((Date)maps.get(i+1).get("TimeTag")));
+                    Double beginNumber = 0.0,endNumber = 0.0;
+                    beginNumber = Double.valueOf(maps.get(i).get(params.getPowerType()).toString());
+                    endNumber = Double.valueOf(maps.get(i+1).get(params.getPowerType()).toString());
+                    map1.put("beginNumber",beginNumber);
+                    map1.put("endNumber",endNumber);
+                    int totalNumber = (int)((endNumber-beginNumber)*num);
+                    map1.put("totalNumber",totalNumber);
+                    Double predictTotalNumber = Double.valueOf(maps.get(i).get("PredictZxygZ").toString());
+                    map1.put("predictTotalNumber",predictTotalNumber);
+                    Double price = Double.valueOf(maps.get(i).get("price").toString());
+                    map1.put("price",price);
+                    Double predictPrice = Double.valueOf(maps.get(i).get("predictPrice").toString());
+                    map1.put("predictPrice",predictPrice);
+                    map1.put("predictProfit",(predictPrice-price)*predictTotalNumber);
+                    newMaps.add(i,map1);
+                    //用于图表显示
+                    Map<String ,Object> map2 = new LinkedHashMap<>();
+                    map2.put("name",Time);
+                    map2.put("value",totalNumber);
+                    map2.put("value1",totalNumber);
+                    map2.put("predictTotalNumber",predictTotalNumber);
+                    map2.put("price",price);
+                    map2.put("predictPrice",predictPrice);
+                    chartList.add(i,map2);
+                }
+            }
+        }
+
+        page = new PageInfo(newMaps);
+        map.put("page",page);
+        map.put("chartList",chartList);
+        return map;
     }
 }

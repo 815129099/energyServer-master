@@ -20,6 +20,7 @@
         <if test="geNumber != null and geNumber != '' and geNumber != 'admin'" >
              and m.geNumber = #{geNumber}
         </if>
+        order by m.create_time desc
     </select>
 
 

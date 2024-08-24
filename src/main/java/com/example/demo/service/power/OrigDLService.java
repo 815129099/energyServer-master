@@ -41,4 +41,6 @@ public interface OrigDLService extends IService<OrigDL> {
 
     String generaPowerPrice(Params params);
 
+    Map getPricePredict(Params params);
+
 }

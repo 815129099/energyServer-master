@@ -150,4 +150,14 @@ public class OrigDLController {
         result.setData(msg);
         return result;
     }
+
+    @RequestMapping(value = "/pricePredict.do",produces = "application/json;charset=UTF-8", method = {RequestMethod.POST})
+    @ResponseBody
+    public Result getPricePredict(@RequestBody Params param) throws ParseException {
+        logger.info(param.toString());
+        Map<String,Object> map = origDLService.getPricePredict(param);
+        Result result = ResultUtil.success();
+        result.setData(map);
+        return result;
+    }
 }
