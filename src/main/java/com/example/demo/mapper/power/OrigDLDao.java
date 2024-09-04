@@ -55,7 +55,7 @@ public interface OrigDLDao extends BaseMapper<OrigDL> {
     //获取昨天总电量
     double getYesTotalPower(@Param("day") String day);
 
-    double getTotalPower(@Param("day") String day);
+    Double getTotalPower(@Param("day") String day);
 
     List<Map> getPeakData(@Param("day") String day);
 

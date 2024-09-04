@@ -177,6 +177,7 @@
         select e.EMeterName as name,p.PowerTotal as value
         from poweranalyze p,emeters e
         where p.EMeterID = e.EMeterID and p.TimeTag = #{day} and e.EMeterID not in (1,2)
+        limit 10
     </select>
 
     <select id="getExceptionData" resultType="java.util.Map">

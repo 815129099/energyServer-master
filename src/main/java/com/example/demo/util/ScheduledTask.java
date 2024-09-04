@@ -93,7 +93,7 @@ public class ScheduledTask {
     //3.添加定时任务
     //@Scheduled(cron = "0/5 * * * * ?")
     //或直接指定时间间隔，例如：5秒
-    @Scheduled(fixedRate=200000)
+    @Scheduled(fixedRate=5000)
     public void sendMessage() {
         System.out.println("定时发送数据");
         List<Map> list = this.origRtvDao.getInstantI();

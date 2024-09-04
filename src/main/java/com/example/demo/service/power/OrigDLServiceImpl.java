@@ -371,7 +371,7 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
         double yesTotalPower = this.origDLDao.getYesTotalPower(DateUtil.getYesDay().get(0));
         list.add(yesTotalPower);
         //获取今天总电量
-        double totalPower = this.origDLDao.getTotalPower(DateUtil.getNowByDay());
+        Double totalPower = this.origDLDao.getYesTotalPower(DateUtil.getNowByDay());
         list.add(totalPower);
         list.add(totalPower/yesTotalPower);
         return list;
