@@ -134,6 +134,7 @@ public class CsvUtil {
                     map.put("id",split[0]);
                     map.put("price",split[2]);
                     map.put("predictPrice",split[3]);
+                    map.put("predictPricePower",split[4]);
                     //数据不为空则加入列表
                     dataList.add(map);
                 }

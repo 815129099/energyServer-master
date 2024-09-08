@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -637,7 +638,7 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
             if (!CollectionUtils.isEmpty(maps)) {
                 for(int i=0;i<maps.size();i++){
                     //预测电量
-                    BigDecimal predictZxygZ = new BigDecimal(maps.get(i).get(params.getPowerType()).toString());
+                    BigDecimal predictZxygZ = new BigDecimal(maps.get(i).get("PredictZxygZ").toString());
                     //id
                     int id = (int) maps.get(i).get("id");
                     Date timeTag = (Date) maps.get(i).get("TimeTag");
@@ -676,15 +677,17 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                         Integer id = null;
                         BigDecimal price = null;
                         BigDecimal predictPrice = null;
+                        BigDecimal predictPricePower = null;
                         try {
                             id = Integer.valueOf(map.get("id").toString());
                             price = new BigDecimal(map.get("price").toString());
                             predictPrice = new BigDecimal(map.get("predictPrice").toString());
+                            predictPricePower = new BigDecimal(map.get("predictPricePower").toString());
                         } catch (Exception e) {
                             //
                         }
                         if (null != id && null != price) {
-                            origDLDao.savePredictPrice(id, price,predictPrice);
+                            origDLDao.savePredictPrice(id, price,predictPrice,predictPricePower);
                         }
                     }
                 }
@@ -708,6 +711,7 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
         //图表数据
         List<Map> chartList = new ArrayList<Map>();
         List<LinkedHashMap> newMaps = new ArrayList<LinkedHashMap>();
+        DecimalFormat df = new DecimalFormat("#.00");
         if(params.getDateType().equals("hour")){
             maps = origDLDao.getPowerPredictByHour(params);
             if (!CollectionUtils.isEmpty(maps)) {
@@ -740,8 +744,16 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     Double price = Double.valueOf(maps.get(i).get("price").toString());
                     map1.put("price",price);
                     Double predictPrice = Double.valueOf(maps.get(i).get("PredictPrice").toString());
+                    String formattedNumber = df.format(predictPrice);
+                    predictPrice = Double.parseDouble(formattedNumber);
                     map1.put("predictPrice",predictPrice);
-                    map1.put("predictProfit",(predictPrice-price)*predictTotalNumber);
+                    Double predictPricePower = Double.valueOf(maps.get(i).get("predictPricePower").toString());
+                    String formattedNumber4 = df.format(predictPricePower);
+                    predictPricePower = Double.parseDouble(formattedNumber4);
+                    map1.put("predictPricePower",predictPricePower);
+
+                    String formattedNumber1 = df.format((predictPrice-price)*predictPricePower);
+                    map1.put("predictProfit",Double.parseDouble(formattedNumber1));
                     newMaps.add(i,map1);
                     //用于图表显示
                     Map<String ,Object> map2 = new LinkedHashMap<>();
@@ -779,12 +791,18 @@ public class OrigDLServiceImpl extends ServiceImpl<OrigDLDao, OrigDL> implements
                     int totalNumber = (int)((endNumber-beginNumber)*num);
                     map1.put("totalNumber",totalNumber);
                     Double predictTotalNumber = Double.valueOf(maps.get(i).get("PredictZxygZ").toString());
+                    predictTotalNumber = Double.parseDouble(df.format((predictTotalNumber)));
                     map1.put("predictTotalNumber",predictTotalNumber);
                     Double price = Double.valueOf(maps.get(i).get("price").toString());
                     map1.put("price",price);
                     Double predictPrice = Double.valueOf(maps.get(i).get("predictPrice").toString());
                     map1.put("predictPrice",predictPrice);
-                    map1.put("predictProfit",(predictPrice-price)*predictTotalNumber);
+                    Double predictPricePower = Double.valueOf(maps.get(i).get("predictPricePower").toString());
+                    String formattedNumber4 = df.format(predictPricePower);
+                    predictPricePower = Double.parseDouble(formattedNumber4);
+                    map1.put("predictPricePower",predictPricePower);
+                    String formattedNumber = df.format((predictPrice-price)*predictPricePower);
+                    map1.put("predictProfit",Double.parseDouble(formattedNumber));
                     newMaps.add(i,map1);
                     //用于图表显示
                     Map<String ,Object> map2 = new LinkedHashMap<>();

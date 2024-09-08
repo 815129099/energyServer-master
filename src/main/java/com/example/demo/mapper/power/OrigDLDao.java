@@ -71,5 +71,5 @@ public interface OrigDLDao extends BaseMapper<OrigDL> {
     //保存预测值
     Integer savePredictPower(@Param("id") Integer id, @Param("PredictZxygZ") BigDecimal PredictZxygZ);
     //保存预测值
-    Integer savePredictPrice(@Param("id") Integer id, @Param("price") BigDecimal price, @Param("predictPrice") BigDecimal predictPrice);
+    Integer savePredictPrice(@Param("id") Integer id, @Param("price") BigDecimal price, @Param("predictPrice") BigDecimal predictPrice, @Param("predictPricePower") BigDecimal predictPricePower);
 }
